@@ -51,6 +51,13 @@
                             </ul>
                         </li>
                         <li>
+                            <a href="./agregarServicio.php">
+                                <span class="icon message" aria-hidden="true"></span>
+                                Gestión de Servicios
+                            </a>
+
+                        </li>
+                        <li>
                             <a href="./registroCliente.php">
                                 <span class="icon message" aria-hidden="true"></span>
                                 Registro de Clientes
@@ -206,6 +213,7 @@
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
 
+
                 </div>
             </main>
             <!-- ! Footer -->
@@ -220,6 +228,7 @@
             </footer>
         </div>
     </div>
+
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->

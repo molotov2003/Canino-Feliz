@@ -1,3 +1,22 @@
+<?php
+
+include("../modelo/MySQL.php");
+$conexion = new MySQL();
+$pdo = $conexion->conectar();
+$id = $_GET['id'];
+
+$sql = "SELECT * FROM servicios where idServicios = :id";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+$fila = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$nomServicio = $fila['nombre'];
+$precio = $fila['precio'];
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,8 +25,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
 </head>
@@ -50,6 +71,14 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="./agregarServicio.php">
+                                <span class="icon message" aria-hidden="true"></span>
+                                Gestión de servicios
+                            </a>
+
+                        </li>
+
                         <li>
                             <a href="./registroCliente.php">
                                 <span class="icon message" aria-hidden="true"></span>
@@ -204,9 +233,46 @@
             </nav>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
+
                 <div class="container">
 
+
+
+
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <h4 class="text-center">Editar Servicio</h4>
+
+                            <form action="../controlador/editarServicio.php" method="post" class="mt-3">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="id" name="id" placeholder="Servicio" value="<?php echo $id ?>" hidden>
+
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="nomServicio" name="nomServicio" value="<?php echo $nomServicio ?>">
+                                    <label for="floatingInput">Nombre Servicio</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="precio" name="precio" value="<?php echo $precio ?>" onkeypress="return onlyNumberKey(event)">
+                                    <label for="floatingInput">Precio Servicio</label>
+
+                                </div>
+                                <div class="text-end"> <button type="submit" class="btn btn-primary ">Editar Servicio</button></div>
+
+                            </form>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+
+
+
                 </div>
+
+
+
+
+
             </main>
             <!-- ! Footer -->
             <footer class="footer">
@@ -220,6 +286,18 @@
             </footer>
         </div>
     </div>
+
+    <script>
+        function onlyNumberKey(evt) {
+
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
