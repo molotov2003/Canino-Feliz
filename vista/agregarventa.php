@@ -6,10 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -205,7 +207,69 @@
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h1 class="text-center fw-bold">
+                                USUARIO
+                            </h1>
+                            <div class="input-group mt-5">
+                                <span class="input-group-text">Cedula</span>
+                                <input type="text" id="cedula" name="cedula" aria-label="First name" class="form-control">
+                                <input type="text" class="form-control" placeholder="Nombre" name="nombreClien" id="nombreClien" aria-label="Recipient's username" aria-describedby="button-addon2" readonly>
+                                <button class="btn btn-outline-primary" type="button" id="btnBuscarCliente">Buscar</button>
+                            </div>
 
+                            <div class="input-group mt-5">
+                                <span class="input-group-text">Codigo Producto</span>
+                                <input type="number" id="codProd" name="codProd" aria-label="First name" class="form-control">
+                                <button class="btn btn-outline-primary" type="button" id="buscarProd" name="buscarProd">Buscar</button>
+                            </div>
+                            <div class="input-group mt-2">
+                                <span class="input-group-text">Nombre </span>
+                                <input type="text" aria-label="First name" class="form-control" name="nombreProd" id="nombreProd" readonly>
+                            </div>
+                            <div class="input-group mt-2">
+                                <span class="input-group-text">Precio </span>
+                                <input type="text" aria-label="First name" class="form-control" name="precioProd" id="precioProd" readonly>
+                            </div>
+                            <div class="input-group mt-2">
+                                <span class="input-group-text">Cantidad</span>
+                                <input type="number" aria-label="First name" class="form-control" name="cantidadProd" id="cantidadProd">
+                            </div>
+                            <div class="input-group mt-2">
+                                <span class="input-group-text">Total</span>
+                                <input type="number" aria-label="First name" class="form-control" name="totalProd" id="totalProd">
+                            </div>
+                            <h1 class="text-center mt-5 mb-5">
+                                <button type="button" id="AgregarProd" name="AgregarProd" class="btn btn-primary">Agregar</button>
+                            </h1>
+                        </div>
+                        <div class="col-12">
+                            <h1 class="text-center fw-bold">
+                                PRODUCTOS
+                            </h1>
+                            <table class="table mt-5 text-center" id="tabla">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th scope="col">Codigo</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Eliminar</th>
+                                        <th scope="col">Editar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <h2 class="mt-4">Total: <span id="total"></span></h2>
+                            <h1 class="text-center mt-5">
+                                <button type="button" id="guardar" name="guardar" class="btn btn-primary">Guardar Compra</button>
+                            </h1>
+                        </div>
+
+                    </div>
                 </div>
             </main>
             <!-- ! Footer -->
@@ -220,12 +284,18 @@
             </footer>
         </div>
     </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
     <script src="../plugins/feather.min.js"></script>
     <!-- Custom scripts -->
     <script src="../js/script.js"></script>
+    <script src="../controlador/prueba.js"></script>
+
 </body>
 
 </html>
