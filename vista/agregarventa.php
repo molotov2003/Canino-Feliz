@@ -159,10 +159,7 @@
             <nav class="main-nav--bg">
                 <div class="container main-nav">
                     <div class="main-nav-start">
-                        <div class="search-wrapper">
-                            <i data-feather="search" aria-hidden="true"></i>
-                            <input type="text" placeholder="Enter keywords ..." required />
-                        </div>
+                      
                     </div>
                     <div class="main-nav-end">
                         <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
@@ -236,12 +233,8 @@
                                 <span class="input-group-text">Cantidad</span>
                                 <input type="number" aria-label="First name" class="form-control" name="cantidadProd" id="cantidadProd">
                             </div>
-                            <div class="input-group mt-2">
-                                <span class="input-group-text">Total</span>
-                                <input type="number" aria-label="First name" class="form-control" name="totalProd" id="totalProd">
-                            </div>
                             <h1 class="text-center mt-5 mb-5">
-                                <button type="button" id="AgregarProd" name="AgregarProd" class="btn btn-primary">Agregar</button>
+                                <button type="button" id="AgregarProd" name="AgregarProd" class="btn btn-primary" disabled>Agregar</button>
                             </h1>
                         </div>
                         <div class="col-12">
@@ -251,10 +244,10 @@
                             <table class="table mt-5 text-center" id="tabla">
                                 <thead class="table-primary">
                                     <tr>
-                                        <th scope="col">Codigo</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Precio</th>
                                         <th scope="col">Cantidad</th>
+                                        <th scope="col">Total</th>
                                         <th scope="col">Eliminar</th>
                                         <th scope="col">Editar</th>
                                     </tr>

@@ -1,3 +1,8 @@
+
+function formatearNumeroConMiles(numero) {
+  return numero.toLocaleString(); // Esto agrega comas para separar los miles
+}
+/////////////////////////////
 const button = document.getElementById("btnBuscarCliente");
 button.addEventListener("click", (e) => {
   e.preventDefault();
@@ -60,7 +65,7 @@ function agregar() {
     cantidad: cantidad,
     totalProd: totalProd,
   });
-  let idRows = "row" + cantidad;
+  let idRows = "row" + cantidad2;
   let fila =
     "<tr id=" +
     idRows +
@@ -83,7 +88,7 @@ function agregar() {
   $("#nombreProd").val("");
   $("#precioProd").val("");
   $("#cantidadProd").val("");
-  cantidad++;
+  cantidad2++;
   sumar();
 }
 function eliminar(row) {
@@ -101,15 +106,13 @@ function eliminar(row) {
 }
 
 function editar(row) {
-    console.log("LA ROW ES" +row);
-  let cantidad3 = parseInt(prompt("Ingrese la Nueva Cantidad"));
-  console.log("LA CANTIDAD NUEVA ES:" + cantidad3);
-  datos[row].cantidad = cantidad3;
-  datos[row].total = datos[row].cantidad * datos[row].precio;
-  let filaId = document.getElementById("#row" + row);
-  celda = filaId.getElementsByTagName("td");
-  celda[3].innerHTML = cantidad;
-  celda[4].innerHTML = datos[row].total;
+  let cantidad3 = prompt("Ingrese la Nueva Cantidad");
+  datos[row].cantidad = parseInt(cantidad3);
+  datos[row].totalProd = datos[row].cantidad * datos[row].precio;
+  let filaId = document.getElementById("row" + row);
+  let celda = filaId.getElementsByTagName("td");
+  celda[2].innerHTML = cantidad3;
+  celda[3].innerHTML = datos[row].totalProd;
   sumar();
 }
 
@@ -118,5 +121,32 @@ function sumar() {
   for (const key of datos) {
     total = total + key.totalProd;
   }
+  total = formatearNumeroConMiles(total);
   document.getElementById("total").innerHTML = total;
+}
+
+/////////////////////////
+let codProd = document.getElementById("codProd");
+let nombreProd = document.getElementById("nombreProd");
+let precioProd = document.getElementById("precioProd");
+let cantidadProd = document.getElementById("cantidadProd");
+
+codProd.addEventListener("input", validarInputs);
+nombreProd.addEventListener("input", validarInputs);
+precioProd.addEventListener("input", validarInputs);
+cantidadProd.addEventListener("input", validarInputs);
+function validarInputs() {
+  // Verificar si los 4 inputs están llenos
+  if (
+    codProd.value.trim() !== "" &&
+    nombreProd.value.trim() !== "" &&
+    precioProd.value.trim() !== "" &&
+    cantidadProd.value.trim() !== ""
+  ) {
+    // Habilitar el botón si todos los inputs están llenos
+    botonAgregarTabla.removeAttribute("disabled");
+  } else {
+    // Deshabilitar el botón si al menos uno de los inputs está vacío
+    botonAgregarTabla.setAttribute("disabled", "disabled");
+  }
 }
