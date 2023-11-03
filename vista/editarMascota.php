@@ -3,10 +3,14 @@ include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
 
-$sql = "SELECT * FROM clientes";
+$idMascota = $_GET['id'];
+
+$sql = "SELECT * FROM mascotas where idMascotas = :idMascotas";
 $stmt = $pdo->prepare($sql);
+$stmt->bindParam(':idMascotas', $idMascota, PDO::PARAM_STR);
 $stmt->execute();
-$fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$fila = $stmt->fetch(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -208,88 +212,42 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </nav>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
-                <div class="container">
-                    <button type="button" onclick="borrar()" class="btn btn-info mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class="bi bi-plus-circle-dotted"></i> </button>
+                <div class="container text-center">
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Cedula</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellido</th>
-                                <th scope="col">Telefono</th>
-                                <th scope="col">Dirección</th>
-                                <th scope="col">Editar</th>
-                                <th scope="col">Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <form action="../controlador/editarMascota.php" method="post">
 
-                            <?php
-                            foreach ($fila as $datos) {
-                            ?>
-                                <tr>
-                                    <td><?php echo $datos['cedula'] ?></td>
-                                    <td><?php echo $datos['nombre'] ?></td>
-                                    <td><?php echo $datos['apellido'] ?></td>
-                                    <td><?php echo $datos['telefono'] ?></td>
-                                    <td><?php echo $datos['direccion'] ?></td>
-                                    <td><a href="../vista/editarCliente.php?cedula=<?php echo $datos['cedula'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
-                                    <td><a href="../controlador/eliminarCliente.php?cedula=<?php echo $datos['cedula'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
-                                </tr>
+                        <h2 class="mb-5">Editar Mascota</h2>
 
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                        <input hidden type="text" class="form-control border-secondary" name="idMascota" value="<?php echo $idMascota ?>">
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Cliente</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action="../controlador/registroCliente.php" method="post">
-                                    <div class="modal-body">
-
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" onkeypress="return onlyNumberKey(event)" name="cedula" id="cedula" placeholder="name@example.com">
-                                            <label for="floatingInput">Cedula</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="nombre" id="nombre" placeholder="name@example.com">
-                                            <label for="floatingInput">Nombre</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="apellido" id="apellido" placeholder="name@example.com">
-                                            <label for="floatingInput">Apellido</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" onkeypress="return onlyNumberKey(event)" name="telefono" id="telefono" placeholder="name@example.com">
-                                            <label for="floatingInput">Telefono</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="direccion" id="direccion" placeholder="name@example.com">
-                                            <label for="floatingInput">Direccion</label>
-                                        </div>
-
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Registrar Cliente</button>
-                                    </div>
-                                </form>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <input disabled type="text" class="form-control border-secondary" value="<?php echo $idMascota ?>">
+                            <label for="floatingInput">Identificación Mascota</label>
                         </div>
-                    </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>">
+                            <label for="floatingInput">Nombre</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="tipoMascota" placeholder="name@example.com" value="<?php echo $fila['tipoMascota'] ?>">
+                            <label for="floatingInput">Tipo de Mascota</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="Raza" placeholder="name@example.com" value="<?php echo $fila['Raza'] ?>">
+                            <label for="floatingInput">Raza</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="requisitoEspecial" placeholder="name@example.com" value="<?php echo $fila['requisitoEspecial'] ?>">
+                            <label for="floatingInput">Requisito Especial</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-4">Editar Mascota</button>
+
+                    </form>
 
                 </div>
 
@@ -308,24 +266,6 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </footer>
         </div>
     </div>
-    <script>
-        function onlyNumberKey(evt) {
-
-            // Only ASCII character in that range allowed
-            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-                return false;
-            return true;
-        }
-
-        function borrar() {
-            document.getElementById("cedula").value = "";
-            document.getElementById("nombre").value = "";
-            document.getElementById("apellido").value = "";
-            document.getElementById("telefono").value = "";
-            document.getElementById("direccion").value = "";
-        }
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>

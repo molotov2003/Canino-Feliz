@@ -215,7 +215,7 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
-                    <button type="button" onclick="borrar()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class="bi bi-plus-lg"></i> </button>
+                    <button type="button" onclick="borrar()" class="btn btn-info mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class="bi bi-plus-circle-dotted"></i> </button>
 
                     <table class="table">
                         <thead>
@@ -235,11 +235,11 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                                 <tr>
                                     <td><?php echo $datos['nombre'] ?></td>
-                                    <td><?php echo $datos['Tipo de Mascota'] ?></td>
+                                    <td><?php echo $datos['tipoMascota'] ?></td>
                                     <td><?php echo $datos['Raza'] ?></td>
-                                    <td><?php echo $datos['Requisito Especial'] ?></td>
-                                    <td><a href="../vista/editarCliente.php?cedula=<?php echo $datos['cedula'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
-                                    <td><a href="../controlador/eliminarCliente.php?cedula=<?php echo $datos['cedula'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
+                                    <td><?php echo $datos['requisitoEspecial'] ?></td>
+                                    <td><a href="../vista/editarMascota.php?id=<?php echo $datos['idMascotas'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
+                                    <td><a href="../controlador/eliminarMascota.php?id=<?php echo $datos['idMascotas'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
                                 </tr>
 
                             <?php
@@ -257,7 +257,7 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Mascota</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="../controlador/registroCliente.php" method="post">
+                                <form action="../controlador/registroMascota.php" method="post">
                                     <div class="modal-body">
 
                                         <div class="form-floating mb-3">
@@ -280,7 +280,7 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                                             <label for="floatingInput">Requisito Especial</label>
                                         </div>
 
-                                        <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example">
+                                        <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example" name="cliente">
 
                                             <option selected disabled>Cliente</option>
                                             <?php

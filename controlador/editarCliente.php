@@ -26,7 +26,7 @@ if (
     $stmt->bindParam(':direccion', $direccion, PDO::PARAM_STR);
     $stmt->execute();
 
-    echo "Edito";
+    header("Location: ../vista/registroCliente.php");
 } else {
     echo "fin";
 }
