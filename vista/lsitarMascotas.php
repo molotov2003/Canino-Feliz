@@ -1,3 +1,20 @@
+<?php
+include("../modelo/MySQL.php");
+$conexion = new MySQL();
+$pdo = $conexion->conectar();
+
+$sql = "SELECT * FROM mascotas";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$sql2 = "SELECT * FROM clientes";
+$stmt2 = $pdo->prepare($sql2);
+$stmt2->execute();
+$fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +23,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
@@ -58,22 +77,10 @@
 
                         </li>
                         <li>
-                            <a class="show-cat-btn" href="##">
+                            <a href="./lsitarMascotas.php">
                                 <span class="icon document" aria-hidden="true"></span>Registro de Mascotas
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
                             </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="./lsitarMascotas.php">Listar Mascotas</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarMascotas.php">Agregar Mascotas</a>
-                                </li>
 
-                            </ul>
                         </li>
                         <li>
                             <a class="show-cat-btn" href="##">
@@ -158,8 +165,11 @@
                 <div class="container main-nav">
                     <div class="main-nav-start">
                         <div class="search-wrapper">
-                            <i data-feather="search" aria-hidden="true"></i>
-                            <input type="text" placeholder="Enter keywords ..." required />
+                            <form action="" method="post">
+                                <i data-feather="search" aria-hidden="true"></i>
+                                <input type="text" placeholder="Buscar Clientes" required />
+                                <button class="btn btn-primary"> <i class="bi bi-search"></i> </button>
+                            </form>
                         </div>
                     </div>
                     <div class="main-nav-end">
@@ -205,8 +215,97 @@
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
+                    <button type="button" onclick="borrar()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class="bi bi-plus-lg"></i> </button>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">nombre</th>
+                                <th scope="col">Tipo de Mascota</th>
+                                <th scope="col">Raza</th>
+                                <th scope="col">Requisito Especial</th>
+                                <th scope="col">Editar</th>
+                                <th scope="col">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <?php
+                            foreach ($fila as $datos) {
+                            ?>
+                                <tr>
+                                    <td><?php echo $datos['nombre'] ?></td>
+                                    <td><?php echo $datos['Tipo de Mascota'] ?></td>
+                                    <td><?php echo $datos['Raza'] ?></td>
+                                    <td><?php echo $datos['Requisito Especial'] ?></td>
+                                    <td><a href="../vista/editarCliente.php?cedula=<?php echo $datos['cedula'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
+                                    <td><a href="../controlador/eliminarCliente.php?cedula=<?php echo $datos['cedula'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
+                                </tr>
+
+                            <?php
+                            }
+
+                            ?>
+                        </tbody>
+                    </table>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Mascota</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="../controlador/registroCliente.php" method="post">
+                                    <div class="modal-body">
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control border-secondary" name="nombre" id="nombre" placeholder="name@example.com">
+                                            <label for="floatingInput">Nombre</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control border-secondary" name="tipo" id="tipo" placeholder="name@example.com">
+                                            <label for="floatingInput">Tipo de Mascota</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control border-secondary" name="raza" id="raza" placeholder="name@example.com">
+                                            <label for="floatingInput">Raza</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control border-secondary" name="requisito" id="requisito" placeholder="name@example.com">
+                                            <label for="floatingInput">Requisito Especial</label>
+                                        </div>
+
+                                        <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example">
+
+                                            <option selected disabled>Cliente</option>
+                                            <?php
+                                            foreach ($fila2 as $datos2) {
+                                            ?>
+                                                <option value="<?php echo $datos2['cedula'] ?>"> <?php echo $datos2['nombre'] . " " . $datos2['apellido'] ?> </option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary">Registrar Cliente</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
+
+
+
             </main>
             <!-- ! Footer -->
             <footer class="footer">
@@ -220,6 +319,25 @@
             </footer>
         </div>
     </div>
+    <script>
+        function onlyNumberKey(evt) {
+
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+
+        function borrar() {
+            document.getElementById("cedula").value = "";
+            document.getElementById("nombre").value = "";
+            document.getElementById("apellido").value = "";
+            document.getElementById("telefono").value = "";
+            document.getElementById("direccion").value = "";
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
