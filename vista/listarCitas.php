@@ -22,8 +22,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- Custom styles -->
@@ -223,60 +222,64 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="container">
 
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-circle-dotted"></i></button>
-                </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Agendar Cita</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agendar Cita</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="./">
+                                    <div class="modal-body">
+
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control border-secondary" id="cedula" name="cedula" value="<?php echo $idEmpleado ?>" disabled>
+                                            <label for="floatingInput">Id Empleado</label>
+                                        </div>
+                                        <select class="form-select border-secondary" aria-label="Default select example">
+
+                                            <option selected disabled>Nombre Cliente</option>
+                                            <?php foreach ($fila as $datos) { ?>
+                                                <option value="<?php echo $datos['nombre'] ?>"><?php echo $datos['nombre'] ?></option>
+                                            <?php } ?>
+
+                                        </select>
+                                        <div class="form-floating mb-3 mt-3">
+                                            <input type="email" class="form-control border-secondary" id="nomMascota" name="nomMascota" value="<?php echo $nomMascota ?>" disabled>
+                                            <label for="floatingInput">Nombre Mascota</label>
+                                        </div>
+                                        <select class="form-select border-secondary" aria-label="Default select example">
+
+                                            <option selected disabled>Servicio</option>
+                                            <?php foreach ($fila as $datos) { ?>
+                                                <option value="<?php echo $datos['nombre'] ?>"><?php echo $datos['nombre'] ?></option>
+                                            <?php } ?>
+
+                                        </select>
+                                        <div class="form-floating mb-3 mt-2">
+                                            <input type="email" class="form-control border-secondary" id="precio" name="precio" value="<?php echo $precio ?>" disabled>
+                                            <label for="floatingInput">Precio Servicio</label>
+                                        </div>
+
+                                        <div class="form-floating mt-3">
+
+                                            <input type="datetime-local" name="fechaCita" id="fechaCita">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-primary">Agendar cita</button>
+                                    </div>
+                                </form>
                             </div>
-                            <form action="./">
-                                <div class="modal-body">
-
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control border-secondary" id="cedula" name="cedula" value="<?php echo $cedula ?>" disabled>
-                                        <label for="floatingInput">Cedula</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control border-secondary" id="nomCliente" name="nomCliente" value="<?php echo $cedula ?>" disabled>
-                                        <label for="floatingInput">Nombre Cliente</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control border-secondary" id="nomMascota" name="nomMascota" value="<?php echo $cedula ?>" disabled>
-                                        <label for="floatingInput">Nombre Mascota</label>
-                                    </div>
-                                    <select class="form-select border-secondary" aria-label="Default select example">
-
-                                        <option selected disabled>Servicio</option>
-                                        <?php foreach ($fila as $datos) { ?>
-                                            <option value="<?php echo $datos['nombre'] ?>"><?php echo $datos['nombre'] ?></option>
-                                        <?php } ?>
-
-                                    </select>
-                                    <div class="form-floating mb-3 mt-2">
-                                        <input type="email" class="form-control border-secondary" id="precio" name="precio" value="<?php echo $precio ?>" disabled>
-                                        <label for="floatingInput">Precio Servicio</label>
-                                    </div>
-
-                                    <div class="form-floating mt-3">
-
-                                        <input type="datetime-local" name="fechaCita" id="fechaCita">
-
-                                    </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary">Agendar cita</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
-
 
 
             </main>
@@ -292,7 +295,8 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
