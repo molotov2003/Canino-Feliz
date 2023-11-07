@@ -1,20 +1,3 @@
-<?php
-//////////////////////////////////
-include('../modelo/MySQL.php');
-$conexion = new MySQL();
-$pdo = $conexion->conectar();
-//traigo las peliculas 
-$sql = "SELECT * FROM `productos`";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
-/////////////////////////////////}
-// hago la consulta para traer el usuario
-
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -238,87 +221,48 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar producto</h1>
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agendar Cita</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="../controlador/AgregarProductos.php" method="post">
                                     <div class="modal-body">
 
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="Idproducto" value="" id="Idproducto" placeholder="Id producto">
+                                            <input type="email" class="form-control border-secondary" id="cedula" name="cedula" value="" id="Idproducto" placeholder="Id producto">
                                             <label for="floatingInput">Id</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="Nombreproducto" value="" id="Nombreproducto" placeholder="Nombre producto">
+                                            <input type="email" class="form-control border-secondary" id="cedula" name="cedula" value="" id="Idnombre" placeholder="Nombre producto">
                                             <label for="floatingInput">Nombre producto</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-3">
-                                            <input type="text" class="form-control border-secondary" name="Existencia" id="Existencia" placeholder="existencia">
+                                            <input type="email" class="form-control border-secondary" id="nomMascota" name="nomMascota" id="Existencia" placeholder="existencia">
                                             <label for="floatingInput">Existencia</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-3">
-                                            <input type="text" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
+                                            <input type="email" class="form-control border-secondary" id="nomMascota" name="nomMascota" id="precio" placeholder="Precio">
                                             <label for="floatingInput">Precio</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-2">
-                                            <input type="text" class="form-control border-secondary" name="Iva" id="Iva" placeholder="Iva">
+                                            <input type="email" class="form-control border-secondary" id="precio" name="precio" id="Iva" placeholder="Iva">
                                             <label for="floatingInput">Iva</label>
                                         </div>
-                                        <div class="form-floating mb-3 mt-2">
-                                            <input type="text" class="form-control border-secondary" name="Idcategoria" id="Idcategoria" placeholder="Idcategoria">
-                                            <label for="floatingInput">Id Categoria</label>
-                                        </div>
+                                        <select class="form-select border-secondary" aria-label="Default select example">
+
+                                            <option selected disabled>Servicio</option>
+                                            <?php foreach ($fila as $datos) { ?>
+                                                <option value="<?php echo $datos['nombre'] ?>"><?php echo $datos['nombre'] ?></option>
+                                            <?php } ?>
+
+                                        </select>
 
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Agendar producto</button>
+                                        <button type="button" class="btn btn-primary">Agendar cita</button>
                                     </div>
                                 </form>
                             </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <?php foreach ($fila as $productos) { ?>
-                                <div class="col-3">
-                                    <div class="card " style="width: 15rem; margin-top:10%; border-left: 5%">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Labrador_Retriever_%281210559%29.jpg" class="card-img-top" alt="...">
-                                        <div class="card-body">
-
-                                            <h5 class="card-title"> <?php echo $productos['nombre']  ?> </h5>
-                                            <p class="card-text">precio: <?php echo $productos['precio']  ?> </p>
-                                        </div>
-                                        <div class="accordion accordion-flush" id="accordionFlushExample">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header">
-
-                                                </h2>
-                                                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-
-                                                    <ul class="ms-4">
-                                                        <?php echo $idProductos = $productos['idProductos']; ?>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item">
-
-                                                <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body text-center">
-
-                                            <input type="hidden" name="idProductos" id="idProductos" value="<?php echo $productos['idProductos'] ?>">
-                                            <a href="../controlador/Eliminarproductos.php?idProductos=<?php echo $productos['idProductos'] ?>" class="card-link me-5 fw-bold fs-3"><i class="bi bi-trash3-fill"></i></a>
-
-                                            <a href="" class="card-link fw-bold fs-3"><i class="bi bi-pencil-fill"></i></a>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
                         </div>
                     </div>
                 </div>

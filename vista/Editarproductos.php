@@ -311,9 +311,10 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <div class="card-body text-center">
 
                                             <input type="hidden" name="idProductos" id="idProductos" value="<?php echo $productos['idProductos'] ?>">
+
                                             <a href="../controlador/Eliminarproductos.php?idProductos=<?php echo $productos['idProductos'] ?>" class="card-link me-5 fw-bold fs-3"><i class="bi bi-trash3-fill"></i></a>
 
-                                            <a href="" class="card-link fw-bold fs-3"><i class="bi bi-pencil-fill"></i></a>
+                                            <a href="../controlador/Editar.php?idProductos=<?php echo $productos['idProductos'] ?>" class="card-link fw-bold fs-3"><i class="bi bi-pencil-fill"></i></a>
 
                                         </div>
                                     </div>
