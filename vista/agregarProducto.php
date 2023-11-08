@@ -241,11 +241,11 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar producto</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="../controlador/AgregarProductos.php" method="post">
+                                <form action="../controlador/productos/AgregarProductos.php" method="post">
                                     <div class="modal-body">
 
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="Idproducto" value="" id="Idproducto" placeholder="Id producto">
+                                            <input type="number" class="form-control border-secondary" name="Idproducto" value="" id="Idproducto" placeholder="Id producto">
                                             <label for="floatingInput">Id</label>
                                         </div>
                                         <div class="form-floating mb-3">
@@ -253,19 +253,19 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <label for="floatingInput">Nombre producto</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-3">
-                                            <input type="text" class="form-control border-secondary" name="Existencia" id="Existencia" placeholder="existencia">
+                                            <input type="number" class="form-control border-secondary" name="Existencia" id="Existencia" placeholder="existencia">
                                             <label for="floatingInput">Existencia</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-3">
-                                            <input type="text" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
+                                            <input type="number" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
                                             <label for="floatingInput">Precio</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-2">
-                                            <input type="text" class="form-control border-secondary" name="Iva" id="Iva" placeholder="Iva">
+                                            <input type="number" class="form-control border-secondary" name="Iva" id="Iva" placeholder="Iva">
                                             <label for="floatingInput">Iva</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-2">
-                                            <input type="text" class="form-control border-secondary" name="Idcategoria" id="Idcategoria" placeholder="Idcategoria">
+                                            <input type="number" class="form-control border-secondary" name="Idcategoria" id="Idcategoria" placeholder="Idcategoria">
                                             <label for="floatingInput">Id Categoria</label>
                                         </div>
 
@@ -280,45 +280,37 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="container-fluid">
                         <div class="row">
-                            <?php foreach ($fila as $productos) { ?>
-                                <div class="col-3">
-                                    <div class="card " style="width: 15rem; margin-top:10%; border-left: 5%">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Labrador_Retriever_%281210559%29.jpg" class="card-img-top" alt="...">
-                                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Nombre </th>
+                                        <th scope="col">Existencia</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Iva</th>
+                                        <th scope="col">Eliminar</th>
+                                        <th scope="col">Editar</th>
+                                    </tr>
+                                </thead>
+                                <?php foreach ($fila as $productos) { ?>
 
-                                            <h5 class="card-title"> <?php echo $productos['nombre']  ?> </h5>
-                                            <p class="card-text">precio: <?php echo $productos['precio']  ?> </p>
-                                        </div>
-                                        <div class="accordion accordion-flush" id="accordionFlushExample">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row"><?php echo $productos['idProductos']  ?></th>
+                                            <td><?php echo $productos['nombre']  ?></td>
+                                            <td><?php echo $productos['existencia']  ?></td>
+                                            <td><?php echo $productos['precio']  ?></td>
+                                            <td><?php echo $productos['iva']  ?></td>
+                                            <td><a class="btn btn-danger" href="../controlador/productos/Eliminarproductos.php?idProductos=<?php echo $productos['idProductos'] ?>" class="card-link me-5 fw-bold fs-3"><i class="bi bi-trash3-fill"></i></a></td>
 
-                                                </h2>
-                                                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
 
-                                                    <ul class="ms-4">
-                                                        <?php echo $idProductos = $productos['idProductos']; ?>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item">
+                                            <td><a class="btn btn-primary" href="../vista/Editarproducto.php?idProductos=<?php echo $productos['idProductos']  ?>" class="card-link me-5 fw-bold fs-3"><i class="bi bi-pencil-square"></i></a></td>
+                                        </tr>
 
-                                                <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    </tbody>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body text-center">
-
-                                            <input type="hidden" name="idProductos" id="idProductos" value="<?php echo $productos['idProductos'] ?>">
-                                            <a href="../controlador/Eliminarproductos.php?idProductos=<?php echo $productos['idProductos'] ?>" class="card-link me-5 fw-bold fs-3"><i class="bi bi-trash3-fill"></i></a>
-
-                                            <a href="" class="card-link fw-bold fs-3"><i class="bi bi-pencil-fill"></i></a>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
+                                <?php } ?>
+                            </table>
                         </div>
                     </div>
                 </div>

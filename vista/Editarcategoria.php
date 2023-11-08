@@ -1,19 +1,18 @@
 <?php
-//////////////////////////////////
-include('../modelo/MySQL.php');
+include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
-//traigo las peliculas 
-$sql = "SELECT * FROM `categorias`";
+
+$idCategorias = $_GET['idCategorias'];
+
+$sql = "SELECT * FROM categorias where idCategorias = :idCategorias";
 $stmt = $pdo->prepare($sql);
+$stmt->bindParam(':idCategorias', $idCategorias, PDO::PARAM_STR);
 $stmt->execute();
-$fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
-/////////////////////////////////}
-// hago la consulta para traer el usuario
-
-
+$fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,17 +21,12 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/style.min.css" />
-
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -81,22 +75,10 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         </li>
                         <li>
-                            <a class="show-cat-btn" href="##">
+                            <a href="./lsitarMascotas.php">
                                 <span class="icon document" aria-hidden="true"></span>Registro de Mascotas
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
                             </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="./lsitarMascotas.php">Listar Mascotas</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarMascotas.php">Agregar Mascotas</a>
-                                </li>
 
-                            </ul>
                         </li>
                         <li>
                             <a class="show-cat-btn" href="##">
@@ -181,8 +163,11 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="container main-nav">
                     <div class="main-nav-start">
                         <div class="search-wrapper">
-                            <i data-feather="search" aria-hidden="true"></i>
-                            <input type="text" placeholder="Enter keywords ..." required />
+                            <form action="" method="post">
+                                <i data-feather="search" aria-hidden="true"></i>
+                                <input type="text" placeholder="Buscar Clientes" required />
+                                <button class="btn btn-primary"> <i class="bi bi-search"></i> </button>
+                            </form>
                         </div>
                     </div>
                     <div class="main-nav-end">
@@ -227,93 +212,54 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </nav>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
-                <div class="container">
+                <div class="container text-center">
 
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-circle-dotted"></i></button>
+                    <form action="../controlador/categorias/EditarCategoria.php" method="post">
 
+                        <h2 class="mb-5">Editar Categoria</h2>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar producto</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action="../controlador/categorias/AgregarCategoria.php" method="post">
-                                    <div class="modal-body">
+                        <input hidden type="text" class="form-control border-secondary" name="idCategoria" value="<?php echo $idCategorias ?>">
 
-                                        <div class="form-floating mb-3">
-                                            <input type="number" class="form-control border-secondary" name="Idcategoria" value="" id="Idcategoria" placeholder="Id producto">
-                                            <label for="floatingInput">Id</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="Nombrecategoria" value="" id="Nombrecategoria" placeholder="Nombrecategoria">
-                                            <label for="floatingInput">Nombre Categoria</label>
-                                        </div>
-
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Agregar categorias</button>
-                                    </div>
-                                </form>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <input disabled type="text" class="form-control border-secondary" value="<?php echo $idCategorias ?>">
+                            <label for="floatingInput">Id de la categoria</label>
                         </div>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Id</th>
-                                        <th scope="col">Nombre </th>
-                                        <th scope="col">Eliminar </th>
-                                        <th scope="col">Editar </th>
-                                    </tr>
-                                </thead>
-                                <?php foreach ($fila as $categorias) { ?>
 
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row"><?php echo $categorias['idCategorias']  ?></th>
-                                            <td><?php echo $categorias['nombre']  ?></td>
-
-                                            <td><a href="../controlador/categorias/Eliminarcategoria.php?idCategorias=<?php echo $categorias['idCategorias'] ?>" class=" btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
-
-                                            <td> <a class="btn btn-primary" href="../vista/Editarcategoria.php?idCategorias=<?php echo $categorias['idCategorias'] ?>"><i class="bi bi-pencil-square"></i> </a></td>
-                                        </tr>
-
-                                    </tbody>
-
-                                <?php } ?>
-                            </table>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>">
+                            <label for="floatingInput">Nombre</label>
                         </div>
-                    </div>
+
+
+
+                        <button type="submit" class="btn btn-primary mt-4">Editar Mascota</button>
+
+                    </form>
+
                 </div>
+
+
+
             </main>
-
-
             <!-- ! Footer -->
             <footer class="footer">
                 <div class="container footer--flex">
                     <div class="footer-start">
                         <p>
-                            2023 © Peluqueria el Canino Feliz-
+                            2023 ©️ Peluqueria el Canino Feliz-
                         </p>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
     <script src="../plugins/feather.min.js"></script>
     <!-- Custom scripts -->
     <script src="../js/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
 </html>

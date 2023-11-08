@@ -15,7 +15,7 @@ if (
     $precio = $_POST['Precio'];
     $iva = $_POST['Iva'];
     $Categorias_idCategorias = $_POST['Idcategoria'];
-    include('../modelo/MySQL.php');
+    include('../../modelo/MySQL.php');
     $conexion = new MySQL();
     $pdo = $conexion->conectar();
 
@@ -29,6 +29,6 @@ if (
     $stmt->bindParam(':iva', $iva, PDO::PARAM_INT);
     $stmt->bindParam(':Categorias_idCategorias', $Categorias_idCategorias, PDO::PARAM_INT);
     $stmt->execute();
-    header("Location: ../vista/agregarProducto.php");
+    header("Location: ../../vista/agregarProducto.php");
 } else {
 }
