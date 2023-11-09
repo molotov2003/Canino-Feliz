@@ -1,16 +1,26 @@
 <?php
 //////////////////////////////////
+session_start();
+
 include('../modelo/MySQL.php');
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
-//traigo las peliculas 
+// traigo el usuario
+$idEmpleados = new MySQL();
+//traigo las categorias
 $sql = "SELECT * FROM `categorias`";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 /////////////////////////////////}
 // hago la consulta para traer el usuario
-
+if ($_SESSION['session'] == true) {
+    $conexion = new MySQL();
+    $pdo = $conexion->conectar();
+    $sql = "SELECT idEmpleados FROM empleados WHERE idEmpleados=:idEmpleados";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idEmpleados', $user, PDO::PARAM_STR);
+    $stmt->execute();
 
 
 ?>
@@ -317,3 +327,8 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </body>
 
 </html>
+<?php
+} else {
+    header("Location: ../index.php");
+}
+?>

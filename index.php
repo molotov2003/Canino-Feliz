@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +37,7 @@
     <div class="limiter">
         <div class="container-login100" style="background-image: url('images2/bg-01.jpg');">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                <form class="login100-form validate-form">
+                <form action="./controlador/Login.php" method="post" id="loginform" class="login100-form validate-form">
                     <span class="login100-form-title p-b-49">
                         Inicio
                     </span>
@@ -42,7 +45,7 @@
 
                     <div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
                         <span class="label-input100">Cedula</span>
-                        <input class="input100" type="text" name="username" placeholder="Cedula">
+                        <input class="input100" type="text" name="idEmpleados" placeholder="Cedula">
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
                     </div>
 

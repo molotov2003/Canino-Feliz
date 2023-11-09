@@ -1,18 +1,26 @@
 <?php
 //////////////////////////////////
+session_start();
+
 include('../modelo/MySQL.php');
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
-//traigo las peliculas 
+// traigo el usuario
+$idEmpleados = new MySQL();
+
+//traigo los productos
 $sql = "SELECT * FROM `productos`";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
-/////////////////////////////////}
-// hago la consulta para traer el usuario
 
-
-
+if ($_SESSION['session'] == true) {
+    $conexion = new MySQL();
+    $pdo = $conexion->conectar();
+    $sql = "SELECT idEmpleados FROM empleados WHERE idEmpleados=:idEmpleados";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idEmpleados', $user, PDO::PARAM_STR);
+    $stmt->execute();
 ?>
 
 <!DOCTYPE html>
@@ -260,10 +268,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <input type="number" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
                                             <label for="floatingInput">Precio</label>
                                         </div>
-                                        <div class="form-floating mb-3 mt-2">
-                                            <input type="number" class="form-control border-secondary" name="Iva" id="Iva" placeholder="Iva">
-                                            <label for="floatingInput">Iva</label>
-                                        </div>
+                                       
                                         <div class="form-floating mb-3 mt-2">
                                             <input type="number" class="form-control border-secondary" name="Idcategoria" id="Idcategoria" placeholder="Idcategoria">
                                             <label for="floatingInput">Id Categoria</label>
@@ -287,7 +292,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <th scope="col">Nombre </th>
                                         <th scope="col">Existencia</th>
                                         <th scope="col">Precio</th>
-                                        <th scope="col">Iva</th>
+                                       
                                         <th scope="col">Eliminar</th>
                                         <th scope="col">Editar</th>
                                     </tr>
@@ -300,7 +305,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?php echo $productos['nombre']  ?></td>
                                             <td><?php echo $productos['existencia']  ?></td>
                                             <td><?php echo $productos['precio']  ?></td>
-                                            <td><?php echo $productos['iva']  ?></td>
+                                           
                                             <td><a class="btn btn-danger" href="../controlador/productos/Eliminarproductos.php?idProductos=<?php echo $productos['idProductos'] ?>" class="card-link me-5 fw-bold fs-3"><i class="bi bi-trash3-fill"></i></a></td>
 
 
@@ -337,3 +342,8 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </body>
 
 </html>
+<?php
+} else {
+    header("Location: ../index.php");
+}
+?>
