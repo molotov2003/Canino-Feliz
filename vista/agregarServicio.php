@@ -50,21 +50,11 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="sidebar-body">
                     <ul class="sidebar-body-menu">
                         <li>
-                            <a class="show-cat-btn" href="##">
-                                <span class="icon folder" aria-hidden="true"></span>Gestión de Citas
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
+                            <a href="./listarCitas.php">
+                                <span class="icon message" aria-hidden="true"></span>
+                                Gestión de Citas
                             </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="./listarCitas.php">Listar Citas</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarCitas.php">Agregar Cita</a>
-                                </li>
-                            </ul>
+
                         </li>
                         <li>
                             <a href="./agregarServicio.php">

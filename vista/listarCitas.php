@@ -1,15 +1,27 @@
 <?php
+
 include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
 
-
+$id = 1;
 
 $sql = "SELECT * FROM servicios";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$sql2 = "SELECT * FROM clientes";
+$stmt2 = $pdo->prepare($sql2);
+$stmt2->execute();
+$fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+$sql4 = "SELECT * FROM empleados";
+$stmt4 = $pdo->prepare($sql4);
+$stmt4->execute();
+$fila4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -27,6 +39,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -221,7 +234,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
 
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-circle-dotted"></i></button>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="borrar()"><i class="bi bi-plus-circle-dotted"></i></button>
 
 
                     <!-- Modal -->
@@ -232,35 +245,62 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Agendar Cita</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="./">
+                                <form action="./" method="post">
                                     <div class="modal-body">
+                                        <div id="idEmpleados">
+                                            <select class="form-select border-secondary" aria-label="Default select example">
+                                                <option selected disabled>Nombre Empleado</option>
+                                                <?php foreach ($fila4 as $datos4) { ?>
+                                                    <option value="<?php echo $datos4['idEmpleados'] ?>"><?php echo $datos4['nombre'] . " " . $datos4['apellido'] ?></option>
+                                                <?php } ?>
 
-                                        <div class="form-floating mb-3">
-                                            <input type="email" class="form-control border-secondary" id="cedula" name="cedula" value="<?php echo $idEmpleado ?>" disabled>
-                                            <label for="floatingInput">Id Empleado</label>
+                                            </select>
                                         </div>
-                                        <select class="form-select border-secondary" aria-label="Default select example">
+
+
+
+                                        <select class="form-select border-secondary mt-3" id="cedula" name="cedula" aria-label="Default select example" onchange="select()">
 
                                             <option selected disabled>Nombre Cliente</option>
-                                            <?php foreach ($fila as $datos) { ?>
-                                                <option value="<?php echo $datos['nombre'] ?>"><?php echo $datos['nombre'] ?></option>
+                                            <?php foreach ($fila2 as $datos2) { ?>
+                                                <option value="<?php echo $datos2['cedula'] ?>"><?php echo $datos2['nombre'] . " " . $datos2['apellido'] ?></option>
                                             <?php } ?>
 
                                         </select>
-                                        <div class="form-floating mb-3 mt-3">
-                                            <input type="email" class="form-control border-secondary" id="nomMascota" name="nomMascota" value="<?php echo $nomMascota ?>" disabled>
-                                            <label for="floatingInput">Nombre Mascota</label>
+                                        <select class="form-select border-secondary mt-3" name="mascota" id="mascota" aria-label="Default select example">
+
+                                            <option selected disabled>Nombre Mascotas</option>
+                                            <?php foreach ($fila3 as $datos3) { ?>
+                                                <option value="<?php echo $datos3['idMascotas'] ?>"><?php echo $datos3['nombre']  ?></option>
+                                            <?php } ?>
+
+                                        </select>
+
+                                        <div class="row mt-3 ms-2">
+
+
+                                            <label for="floatingInput">Servicios</label>
+
+                                            <?php foreach ($fila as $datos) { ?>
+                                                <div class="col-4">
+                                                    <div class="form-check form-check-inline mb-3 ">
+
+                                                        <input class="form-check-input border-primary  " type="checkbox" value="<?php echo $datos['idServicios'] . "/" . $datos['precio'] ?>" style="border-radius:8px" name="servicios[]" id="servicios<?php echo $id  ?>" onclick="suma(<?php echo $id ?>)">
+
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            <?php echo $datos['nombre'] ?>
+                                                        </label>
+                                                        <?php $id = $id + 1 ?>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+
                                         </div>
-                                        <select class="form-select border-secondary" aria-label="Default select example">
 
-                                            <option selected disabled>Servicio</option>
-                                            <?php foreach ($fila as $datos) { ?>
-                                                <option value="<?php echo $datos['nombre'] ?>"><?php echo $datos['nombre'] ?></option>
-                                            <?php } ?>
 
-                                        </select>
+
                                         <div class="form-floating mb-3 mt-2">
-                                            <input type="email" class="form-control border-secondary" id="precio" name="precio" value="<?php echo $precio ?>" disabled>
+                                            <input type="email" class="form-control border-secondary" id="precio" name="precio" disabled>
                                             <label for="floatingInput">Precio Servicio</label>
                                         </div>
 
@@ -295,8 +335,39 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </footer>
         </div>
     </div>
+    <script>
+        var sumar = 0;
+
+        function borrar() {
+            document.getElementById("idEmpleados").value = "";
+            document.getElementById("cedula").value = "";
+            document.getElementById("mascota").value = "";
+            document.getElementById("servicios").value = "";
+            document.getElementById("precio").value = "";
+
+        }
+
+        function suma(numero) {
 
 
+            let servicio = document.getElementById("servicios" + numero);
+            let valor = document.getElementById("servicios" + numero).value;
+            let array = valor.split("/");
+            var precio = array[1];
+
+            if (servicio.checked) {
+                sumar = Number(sumar) + Number(precio);
+                document.getElementById("precio").value = sumar;
+            } else {
+                if (sumar >= 0) {
+                    sumar = Number(sumar) - Number(precio);
+                    document.getElementById("precio").value = sumar;
+                }
+            }
+
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
