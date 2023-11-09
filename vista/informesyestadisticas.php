@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
     <!-- Favicon -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
@@ -214,31 +214,18 @@
                             </div>
                         </h1>
 
-                        <div class="col-4">
-                            <div class="card text-center">
-                                <div class="card-header">
-                                    Reporte de Ventas
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">VENTAS</h5>
-                                    <p class="card-text">Aca se encuentra el Modulo de Ventas</p>
-                                    <a href="#" class="btn btn-primary"><i class="bi bi-download"></i></a>
-                                </div>
-                                <div class="card-footer text-body-secondary">
-                                    CANINO FELIZ
-                                </div>
-                            </div>
+                        <div class="col-3">
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 mt-5">
                             <div class="card text-center">
                                 <div class="card-header">
                                     Reporte General
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">General</h5>
-                                    <p class="card-text">Aca puedes sacar un reporte General de Ventas y Reservas</p>
-                                    <a href="../controlador/reporteGeneral.php" class="btn btn-primary"><i class="bi bi-download"></i></a>
+                                    <h2 class="card-title">General</h2>
+                                    <h5 class="card-text">Aca puedes sacar un reporte General de Ventas y Reservas</h5>
+                                    <a href="../controlador/reporteGeneral.php" class="btn btn-primary mt-4 mb-3"><i class="bi bi-download"></i></a>
                                 </div>
                                 <div class="card-footer text-body-secondary">
                                     CANINO FELIZ
@@ -246,20 +233,8 @@
                             </div>
 
                         </div>
-                        <div class="col-4">
-                            <div class="card text-center">
-                                <div class="card-header">
-                                    Reporte de Reservas
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Reservas</h5>
-                                    <p class="card-text">Aca se encuentra el Modulo de Reservas</p>
-                                    <a href="#" class="btn btn-primary"><i class="bi bi-download"></i></a>
-                                </div>
-                                <div class="card-footer text-body-secondary">
-                                    CANINO FELIZ
-                                </div>
-                            </div>
+                        <div class="col-3">
+
 
                         </div>
                     </div>
