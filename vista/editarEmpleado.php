@@ -221,6 +221,20 @@ $des = base64_decode($contra);
                     </div>
                 </div>
             </nav>
+            <?php
+            if(isset($_SESSION['icono'])){
+             ?>
+             <script>
+                Swal.fire({
+                    icon: "<?php echo $_SESSION['icono']?>",
+                    title: "<?php echo $_SESSION['titulo']?>",
+                    text: "<?php echo $_SESSION['mensaje']?>",
+                });
+             </script>
+             <?php   
+            }
+            unset($_SESSION['icono']);
+            ?>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
                 <div class="container text-center">

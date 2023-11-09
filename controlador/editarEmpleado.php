@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 if (
     isset($_POST['idEmpleados']) && !empty($_POST['idEmpleados'])
     && isset($_POST['nombre']) && !empty($_POST['nombre'])
@@ -41,15 +43,15 @@ if (
         $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         $stmt->bindParam(':rol', $rol, PDO::PARAM_STR);
         $stmt->execute();
-        echo "EDITADO";
+        $_SESSION['icono'] =  "success";
+        $_SESSION['titulo']="Insercion Realizada";
+        $_SESSION['mensaje']="Empleado Correctamente";
+        header("Location: ../vista/agregarEmpleado.php");
 }else{
-    echo $_POST['idEmpleados'];
-    echo $_POST['nombre'];
-    echo  $_POST['apellido'];
-    echo $_POST['telefono'];
-    echo $_POST['password'];
-    echo $_POST['rol'];
-    echo "fin";
+    $_SESSION['icono'] =  "error";
+    $_SESSION['titulo']="Error";
+    $_SESSION['mensaje']="Error de Insercion";
+    header("Location: ../vista/agregarEmpleado.php");
 }
         
         

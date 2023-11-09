@@ -1,4 +1,5 @@
 <?php
+session_start();
 //controla el inicio de sesion
 if (
     isset($_POST['idEmpleados']) && !empty($_POST['idEmpleados'] ) &&
@@ -9,9 +10,8 @@ if (
     isset($_POST['rol']) && !empty($_POST['rol'])
 
 ) {
-
     //se hace llamado del modelo de conexion y consultas 
-    require_once '../modelo/MySQL.php';
+    
     //se capturan las variables que vienen desde el formulario
 
     $idEmpleados = $_POST['idEmpleados'];
@@ -34,23 +34,39 @@ if (
 
 
 
-    try {
-        $pdo = new PDO("mysql:host=localhost;dbname=caninofeliz", "root", "");
-    } catch (PDOException $e) {
-        die("Error de conexión a la base de datos: " . $e->getMessage());
-    }
-    $sql = "INSERT INTO empleados (idEmpleados,nombre,apellido,telefono,password,rol) VALUES (:idEmpleados,:nombre,:apellido,:telefono,:password,: rol)";
+    include("../modelo/MySQL.php");
+    $conexion = new MySQL();
+    $pdo = $conexion->conectar();
+
+
+    $sql = "SELECT * FROM empleados WHERE idEmpleados=:idEmpleados";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':idEmpleados', $idEmpleados, PDO::PARAM_STR);
-    $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
-    $stmt->bindParam(':apellido', $apellido, PDO::PARAM_STR);
-    $stmt->bindParam(':telefono', $telefono, PDO::PARAM_STR);
-    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
-    $stmt->bindParam(':rol', $rol, PDO::PARAM_INT);
     $stmt->execute();
-    echo $idEmpleados;
-    echo $password;
-    
+    if($stmt->rowCount() > 0 ){
+        
+        $_SESSION['icono'] = "error";
+        $_SESSION['titulo'] = "Ya existe un empleado con esa cedula";
+        $_SESSION['mensaje'] = "Error al Agregar";
+        header("Location: ../vista/agregarEmpleado.php");
+    }else{
+        $sql = "INSERT INTO empleados (idEmpleados,nombre,apellido,telefono,password,rol) VALUES (:idEmpleados,:nombre,:apellido,:telefono,:password,:rol)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':idEmpleados', $idEmpleados, PDO::PARAM_STR);
+        $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+        $stmt->bindParam(':apellido', $apellido, PDO::PARAM_STR);
+        $stmt->bindParam(':telefono', $telefono, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+        $stmt->bindParam(':rol', $rol, PDO::PARAM_INT);
+        $stmt->execute();
+        $_SESSION['icono'] =  "success";
+        $_SESSION['titulo']="Insercion Realizada";
+        $_SESSION['mensaje']="Empleado Correctamente";
+        header("Location: ../vista/agregarEmpleado.php");
+    }
+        
 }else{
-    echo "fin";
+   echo "error";
+    header("Location: ../vista/agregarEmpleado.php");
 }
+

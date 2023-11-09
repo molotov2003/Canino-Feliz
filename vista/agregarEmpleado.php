@@ -1,10 +1,8 @@
 <?php
-
+session_start();
 include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
-
-
 $sql = "SELECT * FROM empleados";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
@@ -26,6 +24,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -226,6 +225,34 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
+            <?php
+            if(isset($_SESSION['icono'])){
+             ?>
+             <script>
+                Swal.fire({
+                    icon: "<?php echo $_SESSION['icono']?>",
+                    title: "<?php echo $_SESSION['titulo']?>",
+                    text: "<?php echo $_SESSION['mensaje']?>",
+                });
+             </script>
+             <?php   
+            }
+            unset($_SESSION['icono']);
+            ?>
+             <?php
+            if(isset($_SESSION['icono2'])){
+             ?>
+             <script>
+                Swal.fire({
+                    icono2: "<?php echo $_SESSION['error']?>",
+                    title: "<?php echo $_SESSION['titulo2']?>",
+                    text: "<?php echo $_SESSION['mensajeTitu']?>",
+                });
+             </script>
+             <?php   
+            }
+            unset($_SESSION['icono']);
+            ?>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
 
