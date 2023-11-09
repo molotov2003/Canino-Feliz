@@ -1,3 +1,15 @@
+<?php
+//
+include("../modelo/MySQL.php");
+$conexion = new MySQL();
+$pdo = $conexion->conectar();
+/////////////////////////////
+$sql2 = "SELECT encabezado.idEncabezado,encabezado.fecha,empleados.nombre,encabezado.clientes_cedula, encabezado.total FROM encabezado INNER JOIN empleados 
+WHERE empleados.idEmpleados=encabezado.Empleados_idEmpleados";
+$stmt2 = $pdo->prepare($sql2);
+$stmt2->execute();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,11 +18,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
@@ -124,6 +137,9 @@
                                 <li>
                                     <a href="./agregarventa.php">Agregar Venta de Productos</a>
                                 </li>
+                                <li>
+                                    <a href="./verVentas.php">Ver Venta</a>
+                                </li>
                             </ul>
                         </li>
 
@@ -159,10 +175,7 @@
             <nav class="main-nav--bg">
                 <div class="container main-nav">
                     <div class="main-nav-start">
-                        <div class="search-wrapper">
-                            <i data-feather="search" aria-hidden="true"></i>
-                            <input type="text" placeholder="Enter keywords ..." required />
-                        </div>
+
                     </div>
                     <div class="main-nav-end">
                         <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
@@ -208,59 +221,43 @@
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
                     <div class="row">
-                        <h1 class="text-center">
-                            <div class="alert alert-primary" role="alert">
-                                REPORTES
-                            </div>
-                        </h1>
-
-                        <div class="col-4">
-                            <div class="card text-center">
-                                <div class="card-header">
-                                    Reporte de Ventas
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">VENTAS</h5>
-                                    <p class="card-text">Aca se encuentra el Modulo de Ventas</p>
-                                    <a href="#" class="btn btn-primary"><i class="bi bi-download"></i></a>
-                                </div>
-                                <div class="card-footer text-body-secondary">
-                                    CANINO FELIZ
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-4">
-                            <div class="card text-center">
-                                <div class="card-header">
-                                    Reporte General
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">General</h5>
-                                    <p class="card-text">Aca puedes sacar un reporte General de Ventas y Reservas</p>
-                                    <a href="../controlador/reporteGeneral.php" class="btn btn-primary"><i class="bi bi-download"></i></a>
-                                </div>
-                                <div class="card-footer text-body-secondary">
-                                    CANINO FELIZ
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-4">
-                            <div class="card text-center">
-                                <div class="card-header">
-                                    Reporte de Reservas
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Reservas</h5>
-                                    <p class="card-text">Aca se encuentra el Modulo de Reservas</p>
-                                    <a href="#" class="btn btn-primary"><i class="bi bi-download"></i></a>
-                                </div>
-                                <div class="card-footer text-body-secondary">
-                                    CANINO FELIZ
-                                </div>
-                            </div>
-
+                        <div class="col-12">
+                            <table class="table">
+                                <thead class="text-center table-dark">
+                                    <tr>
+                                        <th scope="col">N° de Ticket</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Nombre Empleado</th>
+                                        <th scope="col">Cedula Cliente</th>
+                                        <th scope="col">Total Venta</th>
+                                        <th scope="col">Ver</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <?php
+                                    while ($fila = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                                        $valor = number_format(
+                                            $fila["total"],
+                                            0,
+                                            ",",
+                                            ".",
+                                        );
+                                    ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $fila['idEncabezado'] ?></th>
+                                            <td><?php echo $fila['fecha'] ?></td>
+                                            <td><?php echo $fila['nombre'] ?></td>
+                                            <td><?php echo $fila['clientes_cedula'] ?></td>
+                                            <td><?php echo $valor ?></td>
+                                            <td>
+                                                <button type="button" class="btn btn-light" onclick="descargar('<?php echo $fila['idEncabezado'] ?>')"> <i class="bi bi-eye-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -277,13 +274,32 @@
             </footer>
         </div>
     </div>
+
+    <script>
+        function descargar(id2) {
+            let ruta = window.location.href;
+            let rutaBien = ruta.split("vista/verVentas.php", "");
+            let rutaCompleta = `${rutaBien}/Canino-Feliz/controlador/tickes/Ticket_Nro_${id2}.pdf`;
+            const downloadLink = document.createElement("a");
+            downloadLink.href = rutaCompleta;
+            downloadLink.style.display = "none";
+            downloadLink.download = `Ticket_Nro_${id2}.pdf`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
     <script src="../plugins/feather.min.js"></script>
     <!-- Custom scripts -->
     <script src="../js/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../controlador/prueba.js"></script>
+
 </body>
 
 </html>

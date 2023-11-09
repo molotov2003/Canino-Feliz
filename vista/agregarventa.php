@@ -124,6 +124,9 @@
                                 <li>
                                     <a href="./agregarventa.php">Agregar Venta de Productos</a>
                                 </li>
+                                <li>
+                                    <a href="./verVentas.php">Ver Venta</a>
+                                </li>
                             </ul>
                         </li>
 
@@ -159,7 +162,7 @@
             <nav class="main-nav--bg">
                 <div class="container main-nav">
                     <div class="main-nav-start">
-                      
+
                     </div>
                     <div class="main-nav-end">
                         <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
@@ -211,15 +214,17 @@
                             </h1>
                             <div class="input-group mt-5">
                                 <span class="input-group-text">Cedula</span>
-                                <input type="text" id="cedula" name="cedula" aria-label="First name" class="form-control">
+                                <input type="number" id="cedula" name="cedula" aria-label="First name" class="form-control">
                                 <input type="text" class="form-control" placeholder="Nombre" name="nombreClien" id="nombreClien" aria-label="Recipient's username" aria-describedby="button-addon2" readonly>
                                 <button class="btn btn-outline-primary" type="button" id="btnBuscarCliente">Buscar</button>
+                                <button class="btn btn-outline-danger" type="button" id="btnCancelarBuscarCliente">Cancelar</button>
                             </div>
 
                             <div class="input-group mt-5">
                                 <span class="input-group-text">Codigo Producto</span>
                                 <input type="number" id="codProd" name="codProd" aria-label="First name" class="form-control">
                                 <button class="btn btn-outline-primary" type="button" id="buscarProd" name="buscarProd">Buscar</button>
+                                <button class="btn btn-outline-danger" type="button" id="buscarProdCanc" name="buscarProd">Cancelar</button>
                             </div>
                             <div class="input-group mt-2">
                                 <span class="input-group-text">Nombre </span>
@@ -257,8 +262,12 @@
                                 </tbody>
                             </table>
                             <h2 class="mt-4">Total: <span id="total"></span></h2>
+                            <div class="input-group mt-5">
+                                <span class="input-group-text">Valor Recibido</span>
+                                <input type="number" aria-label="First name" class="form-control" name="valorRecibido" id="valorRecibido">
+                            </div>
                             <h1 class="text-center mt-5">
-                                <button type="button" id="guardar" name="guardar" class="btn btn-primary">Guardar Compra</button>
+                                <button type="button" id="guardar" name="guardar" class="btn btn-primary" disabled>Guardar Compra</button>
                             </h1>
                         </div>
 
