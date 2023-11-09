@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 if (
     isset($_POST['Idcategoria']) && !empty($_POST['Idcategoria']) &&
     isset($_POST['Nombrecategoria']) && !empty($_POST['Nombrecategoria'])
@@ -21,6 +21,8 @@ if (
 
     $stmt->execute();
     header("Location: ../../vista/agregarCategorias.php");
+    $_SESSION['mensajeErr2'] = "Felicidades";
+    $_SESSION['mensajeErr'] = "SE han agregado la cantidad de existencias";
 } else {
     echo $Idcategoria;
     echo $nombre;

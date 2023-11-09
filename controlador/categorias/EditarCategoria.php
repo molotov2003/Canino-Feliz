@@ -1,6 +1,7 @@
 
 <?php
-//controla el inicio de sesion
+
+session_start();
 if (
     isset($_POST['idCategoria']) && !empty($_POST['idCategoria'])
 
@@ -18,6 +19,8 @@ if (
     $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
     $stmt->execute();
     header("Location: ../../vista/agregarCategorias.php");
+    $_SESSION['mensajeErr2'] = "Felicidades";
+    $_SESSION['mensajeErr'] = "Se ha editado correctamente";
 } else {
     echo $nombre;
     echo $idCategorias;

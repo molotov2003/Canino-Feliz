@@ -1,5 +1,6 @@
 
 <?php
+session_start();
 if (
     isset($_POST['idProductos']) && !empty($_POST['idProductos'])
 
@@ -24,6 +25,7 @@ if (
     $stmt->bindParam(':Categorias_idCategorias', $Categorias_idCategorias, PDO::PARAM_INT);
     $stmt->execute();
     header("Location: ../../vista/agregarProducto.php");
+    $_SESSION['mensaje2'] = "Felicidades";
+    $_SESSION['mensaje'] = "Se ha editado correctamente";
 } else {
-    echo $idProductos, $nombre, $existencia, $precio, $iva, $Categorias_idCategorias;
 }

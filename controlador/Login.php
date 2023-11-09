@@ -3,12 +3,12 @@ session_start();
 if (isset($_POST['idEmpleados']) && !empty($_POST['idEmpleados']) && isset($_POST['pass']) && !empty($_POST['pass'])) {
     $idEmpleados = $_POST['idEmpleados'];
     $password =  $_POST['pass'];
-    
-    
+
+
     include('../modelo/MySQL.php');
     $conexion = new MySQL();
     $pdo = $conexion->conectar();
-    
+
     $sql = "SELECT * FROM empleados WHERE idEmpleados=:idEmpleados AND password=:password";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':idEmpleados', $idEmpleados, PDO::PARAM_STR);
@@ -17,7 +17,6 @@ if (isset($_POST['idEmpleados']) && !empty($_POST['idEmpleados']) && isset($_POS
     if ($stmt->rowCount() > 0) {
         $fila = $stmt->fetch(PDO::FETCH_ASSOC);
         $_SESSION['idEmpleados'] = $fila['idEmpleados'];
-        
         $_SESSION['session'] = true;
         header("Location: ../vista/agregarProducto.php");
     } else {
@@ -27,4 +26,3 @@ if (isset($_POST['idEmpleados']) && !empty($_POST['idEmpleados']) && isset($_POS
         echo $user, $pass;
     }
 }
-

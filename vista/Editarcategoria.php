@@ -211,6 +211,40 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
                 </div>
             </nav>
             <!-- ! Main -->
+            <!-- sweet alert -->
+            <?php
+            if (isset($_SESSION['mensaje'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensaje'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensaje']);
+            }
+            ?>
+
+            <?php
+            if (isset($_SESSION['mensajeErr'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensajeErr']);
+            }
+            ?>
             <main class="main users chart-page" id="skip-target">
                 <div class="container text-center">
 

@@ -11,6 +11,13 @@ $stmt->bindParam(':idProductos', $idProductos, PDO::PARAM_STR);
 $stmt->execute();
 $fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
+//traigo las categorias
+
+$sql2 = "SELECT * FROM `categorias`";
+$stmt2 = $pdo->prepare($sql2);
+$stmt2->execute();
+$fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +34,7 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -210,6 +218,40 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
+            <!-- sweet alert -->
+            <?php
+            if (isset($_SESSION['mensaje'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensaje'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensaje']);
+            }
+            ?>
+
+            <?php
+            if (isset($_SESSION['mensajeErr'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensajeErr']);
+            }
+            ?>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
                 <div class="container text-center">
@@ -242,13 +284,17 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
                             <input type="number" class="form-control border-secondary" name="iva" placeholder="name@example.com" value="<?php echo $fila['iva'] ?>">
                             <label for="floatingInput">iva</label>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control border-secondary" name="Categorias_idCategorias" placeholder="name@example.com" value="<?php echo $fila['Categorias_idCategorias'] ?>">
-                            <label for="floatingInput">Id categoria</label>
-                        </div>
 
+                        <select name="Categorias_idCategorias" class="form-select" aria-label="Default select example">
 
-                        <button type="submit" class="btn btn-primary mt-4">Editar Mascota</button>
+                            <?php foreach ($fila2 as $categorias) { ?>
+
+                                <option value="<?php echo $categorias['idCategorias'] ?>"><?php echo $categorias['nombre'] ?></option>
+
+                            <?php } ?>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary mt-4">Editar Producto</button>
 
                     </form>
 
