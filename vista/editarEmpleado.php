@@ -1,3 +1,29 @@
+<?php
+include("../modelo/MySQL.php");
+$conexion = new MySQL();
+$pdo = $conexion->conectar();
+
+$idEmpleados = $_GET['id'];
+
+$sql = "SELECT * FROM empleados where idEmpleados = :idEmpleados";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':idEmpleados', $idEmpleados, PDO::PARAM_STR);
+$stmt->execute();
+$fila = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$desencriptar = function ($valor) {
+    $clave = 'Una cadena, muy, muy larga para mejorar la encriptacion';
+    //Metodo de encriptaciÃ³n
+    $method = 'aes-256-cbc';
+    // Puedes generar una diferente usando la funcion $getIV()
+    $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+    return base64_decode(openssl_decrypt($valor, $method, $clave, false, $iv));
+};
+$contra = $fila['password'];
+$desencriptarpass = $desencriptar($contra);
+$des = base64_decode($contra);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +32,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
@@ -58,22 +86,10 @@
 
                         </li>
                         <li>
-                            <a class="show-cat-btn" href="##">
+                            <a href="./lsitarMascotas.php">
                                 <span class="icon document" aria-hidden="true"></span>Registro de Mascotas
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
                             </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="./lsitarMascotas.php">Listar Mascotas</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarMascotas.php">Agregar Mascotas</a>
-                                </li>
 
-                            </ul>
                         </li>
                         <li>
                             <a class="show-cat-btn" href="##">
@@ -158,8 +174,11 @@
                 <div class="container main-nav">
                     <div class="main-nav-start">
                         <div class="search-wrapper">
-                            <i data-feather="search" aria-hidden="true"></i>
-                            <input type="text" placeholder="Enter keywords ..." required />
+                            <form action="" method="post">
+                                <i data-feather="search" aria-hidden="true"></i>
+                                <input type="text" placeholder="Buscar Clientes" required />
+                                <button class="btn btn-primary"> <i class="bi bi-search"></i> </button>
+                            </form>
                         </div>
                     </div>
                     <div class="main-nav-end">
@@ -204,9 +223,51 @@
             </nav>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
-                <div class="container">
+                <div class="container text-center">
+
+                    <form action="../controlador/editarEmpleado.php" method="post">
+
+                        <h2 class="mb-5">Editar Empleado</h2>
+
+                        <input hidden type="text" class="form-control border-secondary" name="idEmpleados" value="<?php echo $idEmpleados ?>">
+
+                        <div class="form-floating mb-3">
+                            <input disabled type="text" class="form-control border-secondary" value="<?php echo $idEmpleados ?>">
+                            <label for="floatingInput">Identificación Empleado</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>">
+                            <label for="floatingInput">Nombre</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="apellido" value="<?php echo $fila['apellido'] ?>">
+                            <label for="floatingInput">apellido</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="telefono" placeholder="name@example.com" value="<?php echo $fila['telefono'] ?>">
+                            <label for="floatingInput">telefono</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="password" placeholder="name@example.com" value="<?php echo  $des ?>">
+                            <label for="floatingInput">contraseña</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-secondary" name="rol" placeholder="name@example.com" value="<?php echo $fila['rol'] ?>">
+                            <label for="floatingInput">rol</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-4">Editar Empleado</button>
+
+                    </form>
 
                 </div>
+
+
+
             </main>
             <!-- ! Footer -->
             <footer class="footer">
@@ -220,6 +281,7 @@
             </footer>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
