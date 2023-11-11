@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (
     isset($_POST['nomServicio']) && !empty($_POST['nomServicio']) &&
     isset($_POST['precio']) && !empty($_POST['precio'])
@@ -23,5 +24,9 @@ if (
     $stmt->bindParam(':nomServicio', $nomServicio, PDO::PARAM_STR);
     $stmt->bindParam(':precio', $precio, PDO::PARAM_INT);
     $stmt->execute();
-    echo "Agrego";
+
+
+    $_SESSION['mensaje2'] = "Felicidades";
+    $_SESSION['mensaje'] = "Se ha agregado correctamente";
+    header("Location: ../vista/agregarServicio.php");
 }
