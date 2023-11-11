@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
@@ -12,6 +13,8 @@ $sql2 = "SELECT * FROM clientes";
 $stmt2 = $pdo->prepare($sql2);
 $stmt2->execute();
 $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+if ($_SESSION['session'] == true) {
 
 ?>
 
@@ -29,6 +32,7 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -167,7 +171,7 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                         <div class="search-wrapper">
                             <form action="" method="post">
                                 <i data-feather="search" aria-hidden="true"></i>
-                                <input type="text" placeholder="Buscar Clientes" required />
+                                <input type="text" placeholder="Buscar Mascota" required />
                                 <button class="btn btn-primary"> <i class="bi bi-search"></i> </button>
                             </form>
                         </div>
@@ -212,6 +216,40 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
+              <!-- sweet alert -->
+              <?php
+            if (isset($_SESSION['mensaje'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensaje'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensaje']);
+            }
+            ?>
+
+            <?php
+            if (isset($_SESSION['mensajeErr'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensajeErr']);
+            }
+            ?>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
@@ -261,36 +299,36 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="modal-body">
 
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="nombre" id="nombre" placeholder="name@example.com">
+                                            <input type="text" class="form-control border-secondary" name="nombre" id="nombre" placeholder="name@example.com" required>
                                             <label for="floatingInput">Nombre</label>
                                         </div>
 
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="tipo" id="tipo" placeholder="name@example.com">
+                                            <input type="text" class="form-control border-secondary" name="tipo" id="tipo" placeholder="name@example.com" required>
                                             <label for="floatingInput">Tipo de Mascota</label>
                                         </div>
 
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="raza" id="raza" placeholder="name@example.com">
+                                            <input type="text" class="form-control border-secondary" name="raza" id="raza" placeholder="name@example.com" required>
                                             <label for="floatingInput">Raza</label>
                                         </div>
 
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="requisito" id="requisito" placeholder="name@example.com">
+                                            <input type="text" class="form-control border-secondary" name="requisito" id="requisito" placeholder="name@example.com" required>
                                             <label for="floatingInput">Requisito Especial</label>
                                         </div>
-
-                                        <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example" name="cliente">
-
-                                            <option selected disabled>Cliente</option>
-                                            <?php
-                                            foreach ($fila2 as $datos2) {
-                                            ?>
-                                                <option value="<?php echo $datos2['cedula'] ?>"> <?php echo $datos2['nombre'] . " " . $datos2['apellido'] ?> </option>
-                                            <?php
-                                            }
-                                            ?>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example" name="cliente" required>
+                                                <?php
+                                                foreach ($fila2 as $datos2) {
+                                                ?>
+                                                    <option value="<?php echo $datos2['cedula'] ?>"> <?php echo $datos2['nombre'] . " " . $datos2['apellido'] ?> </option>
+                                                <?php
+                                                }
+                                                ?>
                                         </select>
+                                        <label for="floatingInput">Cliente</label>
+                                        </div>
 
                                     </div>
                                     <div class="modal-footer">
@@ -347,3 +385,9 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 </body>
 
 </html>
+
+<?php
+} else {
+    header("Location: ../index.php");
+}
+?>

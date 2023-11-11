@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (
     isset($_POST['nombre']) && !empty($_POST['nombre']) &&
     isset($_POST['tipo']) && !empty($_POST['tipo']) &&
@@ -38,6 +39,9 @@ if (
     $stmt3->bindParam(':cedula', $cliente, PDO::PARAM_STR);
     $stmt3->bindParam(':idMascota', $idMaximo, PDO::PARAM_INT);
     $stmt3->execute();
+
+    $_SESSION['mensaje2'] = "Felicidades";
+    $_SESSION['mensaje'] = "La mascota se ha registrado correctamente";
 
     header("Location: ../vista/lsitarMascotas.php");
 } else {

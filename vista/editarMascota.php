@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
@@ -10,6 +11,8 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':idMascotas', $idMascota, PDO::PARAM_STR);
 $stmt->execute();
 $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($_SESSION['session'] == true) {
 
 ?>
 
@@ -27,6 +30,7 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -210,6 +214,40 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
+                          <!-- sweet alert -->
+                          <?php
+            if (isset($_SESSION['mensaje'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensaje'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensaje']);
+            }
+            ?>
+
+            <?php
+            if (isset($_SESSION['mensajeErr'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensajeErr']);
+            }
+            ?>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
                 <div class="container text-center">
@@ -221,27 +259,27 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
                         <input hidden type="text" class="form-control border-secondary" name="idMascota" value="<?php echo $idMascota ?>">
 
                         <div class="form-floating mb-3">
-                            <input disabled type="text" class="form-control border-secondary" value="<?php echo $idMascota ?>">
+                            <input disabled type="text" class="form-control border-secondary" value="<?php echo $idMascota ?>" required>
                             <label for="floatingInput">Identificación Mascota</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>">
+                            <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>" required>
                             <label for="floatingInput">Nombre</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control border-secondary" name="tipoMascota" placeholder="name@example.com" value="<?php echo $fila['tipoMascota'] ?>">
+                            <input type="text" class="form-control border-secondary" name="tipoMascota" placeholder="name@example.com" value="<?php echo $fila['tipoMascota'] ?>" required>
                             <label for="floatingInput">Tipo de Mascota</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control border-secondary" name="Raza" placeholder="name@example.com" value="<?php echo $fila['Raza'] ?>">
+                            <input type="text" class="form-control border-secondary" name="Raza" placeholder="name@example.com" value="<?php echo $fila['Raza'] ?>" required>
                             <label for="floatingInput">Raza</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control border-secondary" name="requisitoEspecial" placeholder="name@example.com" value="<?php echo $fila['requisitoEspecial'] ?>">
+                            <input type="text" class="form-control border-secondary" name="requisitoEspecial" placeholder="name@example.com" value="<?php echo $fila['requisitoEspecial'] ?>" required>
                             <label for="floatingInput">Requisito Especial</label>
                         </div>
 
@@ -276,3 +314,8 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
 </body>
 
 </html>
+<?php
+} else {
+    header("Location: ../index.php");
+}
+?>

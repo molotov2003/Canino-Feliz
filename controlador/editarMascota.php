@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (
     isset($_POST['idMascota']) && !empty($_POST['idMascota']) &&
     isset($_POST['nombre']) && !empty($_POST['nombre']) &&
@@ -25,6 +26,9 @@ if (
     $stmt->bindParam(':Raza', $raza, PDO::PARAM_STR);
     $stmt->bindParam(':requisitoEspecial', $requisito, PDO::PARAM_STR);
     $stmt->execute();
+
+    $_SESSION['mensaje2'] = "Felicidades";
+    $_SESSION['mensaje'] = "Se ha editado la mascota correctamente";
 
     header("Location: ../vista/lsitarMascotas.php");
 } else {
