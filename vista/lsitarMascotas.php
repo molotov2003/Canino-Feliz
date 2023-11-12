@@ -4,7 +4,9 @@ include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
 
-$sql = "SELECT * FROM mascotas";
+$sql = "SELECT mascotas.idMascotas, mascotas.nombre, mascotas.tipoMascota, mascotas.Raza, mascotas.requisitoEspecial, clientes.nombre AS nombrePer, clientes.cedula
+FROM mascotas INNER JOIN clientes INNER JOIN clientes_has_mascotas 
+WHERE mascotas.idMascotas = clientes_has_mascotas.Mascotas_idMascotas AND clientes.cedula = clientes_has_mascotas.Clientes_cedula";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -14,7 +16,6 @@ $stmt2 = $pdo->prepare($sql2);
 $stmt2->execute();
 $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SESSION['session'] == true) {
 
 ?>
 
@@ -216,8 +217,8 @@ if ($_SESSION['session'] == true) {
                     </div>
                 </div>
             </nav>
-              <!-- sweet alert -->
-              <?php
+            <!-- sweet alert -->
+            <?php
             if (isset($_SESSION['mensaje'])) {
             ?>
                 <script>
@@ -258,10 +259,12 @@ if ($_SESSION['session'] == true) {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">nombre</th>
+                                <th scope="col">Nombre</th>
                                 <th scope="col">Tipo de Mascota</th>
                                 <th scope="col">Raza</th>
                                 <th scope="col">Requisito Especial</th>
+                                <th scope="col">Dueño</th>
+                                <th scope="col">Cedula</th>
                                 <th scope="col">Editar</th>
                                 <th scope="col">Eliminar</th>
                             </tr>
@@ -276,6 +279,8 @@ if ($_SESSION['session'] == true) {
                                     <td><?php echo $datos['tipoMascota'] ?></td>
                                     <td><?php echo $datos['Raza'] ?></td>
                                     <td><?php echo $datos['requisitoEspecial'] ?></td>
+                                    <td><?php echo $datos['nombrePer'] ?></td>
+                                    <td><?php echo $datos['cedula'] ?></td>
                                     <td><a href="../vista/editarMascota.php?id=<?php echo $datos['idMascotas'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
                                     <td><a href="../controlador/eliminarMascota.php?id=<?php echo $datos['idMascotas'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
                                 </tr>
@@ -326,8 +331,8 @@ if ($_SESSION['session'] == true) {
                                                 <?php
                                                 }
                                                 ?>
-                                        </select>
-                                        <label for="floatingInput">Cliente</label>
+                                            </select>
+                                            <label for="floatingInput">Cliente</label>
                                         </div>
 
                                     </div>
@@ -387,7 +392,4 @@ if ($_SESSION['session'] == true) {
 </html>
 
 <?php
-} else {
-    header("Location: ../index.php");
-}
 ?>

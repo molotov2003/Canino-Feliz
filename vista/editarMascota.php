@@ -5,14 +5,17 @@ $conexion = new MySQL();
 $pdo = $conexion->conectar();
 
 $idMascota = $_GET['id'];
+if (isset($idMascota) && !empty($idMascota)) {
+    $sql = "SELECT * FROM mascotas where idMascotas = :idMascotas";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idMascotas', $idMascota, PDO::PARAM_STR);
+    $stmt->execute();
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+} else {
+    header('Location: ./lsitarMascotas.php');
+}
 
-$sql = "SELECT * FROM mascotas where idMascotas = :idMascotas";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':idMascotas', $idMascota, PDO::PARAM_STR);
-$stmt->execute();
-$fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($_SESSION['session'] == true) {
 
 ?>
 
@@ -214,8 +217,8 @@ if ($_SESSION['session'] == true) {
                     </div>
                 </div>
             </nav>
-                          <!-- sweet alert -->
-                          <?php
+            <!-- sweet alert -->
+            <?php
             if (isset($_SESSION['mensaje'])) {
             ?>
                 <script>
@@ -315,7 +318,4 @@ if ($_SESSION['session'] == true) {
 
 </html>
 <?php
-} else {
-    header("Location: ../index.php");
-}
 ?>

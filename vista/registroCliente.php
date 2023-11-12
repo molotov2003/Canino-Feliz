@@ -9,8 +9,8 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SESSION['session'] == true) {
-    
+
+
 ?>
 
 <!DOCTYPE html>
@@ -211,8 +211,8 @@ if ($_SESSION['session'] == true) {
                     </div>
                 </div>
             </nav>
-                          <!-- sweet alert -->
-                          <?php
+            <!-- sweet alert -->
+            <?php
             if (isset($_SESSION['mensaje'])) {
             ?>
                 <script>
@@ -377,7 +377,4 @@ if ($_SESSION['session'] == true) {
 </html>
 
 <?php
-} else {
-    header("Location: ../index.php");
-}
 ?>

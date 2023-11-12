@@ -5,17 +5,19 @@ $conexion = new MySQL();
 $pdo = $conexion->conectar();
 
 $cedula = $_GET['cedula'];
+if (isset($cedula) && !empty($cedula)) {
+    $sql = "SELECT * FROM clientes where cedula = :cedula";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':cedula', $cedula, PDO::PARAM_STR);
+    $stmt->execute();
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+} else {
+    header('Location: ./registroCliente.php');
+}
 
-$sql = "SELECT * FROM clientes where cedula = :cedula";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':cedula', $cedula, PDO::PARAM_STR);
-$stmt->execute();
-$fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($_SESSION['session'] == true) {
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -214,8 +216,8 @@ if ($_SESSION['session'] == true) {
                     </div>
                 </div>
             </nav>
-                          <!-- sweet alert -->
-                          <?php
+            <!-- sweet alert -->
+            <?php
             if (isset($_SESSION['mensaje'])) {
             ?>
                 <script>
@@ -315,7 +317,4 @@ if ($_SESSION['session'] == true) {
 
 </html>
 <?php
-} else {
-    header("Location: ../index.php");
-}
 ?>
