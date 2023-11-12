@@ -8,12 +8,12 @@
     <title>Peluqueria el Canino Feliz</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Favicon -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -240,9 +240,9 @@
                                     Reporte General
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">General</h5>
-                                    <p class="card-text">Aca puedes sacar un reporte General de Ventas y Reservas</p>
-                                    <a href="../controlador/reporteGeneral.php" class="btn btn-primary"><i class="bi bi-download"></i></a>
+                                    <h2 class="card-title">General</h2>
+                                    <h5 class="card-text">Aca puedes sacar un reporte General de Ventas y Reservas</h5>
+                                    <a href="../controlador/reporteGeneral.php" class="btn btn-primary mt-4 mb-3"><i class="bi bi-download"></i></a>
                                 </div>
                                 <div class="card-footer text-body-secondary">
                                     CANINO FELIZ

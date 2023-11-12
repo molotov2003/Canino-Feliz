@@ -26,7 +26,7 @@ class PDF extends FPDF
         // Pie de página
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'Página ' . $this->PageNo(), 0, 0, 'C');
+        $this->Cell(0, 10, utf8_decode('Página') . $this->PageNo(), 0, 0, 'C');
     }
 
     function ChapterTitle($title)
