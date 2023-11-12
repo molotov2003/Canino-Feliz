@@ -271,6 +271,22 @@ if ($_SESSION['session'] == true) {
                     unset($_SESSION['mensajeErr']);
                 }
                 ?>
+                <?php
+                if (isset($_SESSION['mensajeErr3'])) {
+                ?>
+                    <script>
+                        let msj = '<?php echo $_SESSION['mensajeErr4'] ?>'
+                        let titulo = '<?php echo $_SESSION['mensajeErr3'] ?>'
+                        Swal.fire(
+                            titulo,
+                            msj,
+                            'error'
+                        )
+                    </script>
+                <?php
+                    unset($_SESSION['mensajeErr3']);
+                }
+                ?>
                 <main class="main users chart-page" id="skip-target">
                     <div class="container">
 
@@ -282,18 +298,18 @@ if ($_SESSION['session'] == true) {
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar producto</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar categoria</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <form action="../controlador/categorias/AgregarCategoria.php" method="post">
                                         <div class="modal-body">
 
                                             <div class="form-floating mb-3">
-                                                <input type="number" class="form-control border-secondary" name="Idcategoria" value="" id="Idcategoria" placeholder="Id producto">
+                                                <input type="number" class="form-control border-secondary" name="Idcategoria" value="" require id="Idcategoria" placeholder="Id producto">
                                                 <label for="floatingInput">Id</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control border-secondary" name="Nombrecategoria" value="" id="Nombrecategoria" placeholder="Nombrecategoria">
+                                                <input type="text" class="form-control border-secondary" name="Nombrecategoria" value="" require id="Nombrecategoria" placeholder="Nombrecategoria">
                                                 <label for="floatingInput">Nombre Categoria</label>
                                             </div>
 

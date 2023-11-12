@@ -5,6 +5,7 @@ if (
     isset($_POST['idProductos']) && !empty($_POST['idProductos'])
 
 ) {
+    //se llaman los  inputs del form
     $idProductos = $_POST['idProductos'];
     $nombre = $_POST['nombre'];
     $existencia = $_POST['existencia'];
@@ -15,7 +16,7 @@ if (
     $conexion = new MySQL();
     $pdo = $conexion->conectar();
 
-
+    //se edita el producto
     $sql =  "UPDATE productos SET nombre =:nombre, existencia =:existencia, precio =:precio, Categorias_idCategorias =:Categorias_idCategorias WHERE idProductos=:idProductos";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':idProductos', $idProductos, PDO::PARAM_INT);

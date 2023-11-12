@@ -275,6 +275,23 @@ if ($_SESSION['session'] == true) {
                     unset($_SESSION['mensajeErr']);
                 }
                 ?>
+                  <?php
+                if (isset($_SESSION['mensajeErr3'])) {
+                ?>
+                    <script>
+                        let msj = '<?php echo $_SESSION['mensajeErr3'] ?>'
+                        let titulo = '<?php echo $_SESSION['mensajeErr4'] ?>'
+                        Swal.fire(
+                            titulo,
+                            msj,
+                            'error'
+                        )
+                    </script>
+                <?php
+                    unset($_SESSION['mensajeErr3']);
+                }
+                ?>
+                
                 <!-- ! Main -->
                 <main class="main users chart-page" id="skip-target">
                     <div class="container">
@@ -294,7 +311,7 @@ if ($_SESSION['session'] == true) {
                                         <div class="modal-body">
 
                                             <div class="form-floating mb-3">
-                                                <input type="number" class="form-control border-secondary" name="Idproducto" value="" id="Idproducto" placeholder="Id producto">
+                                                <input type="number" class="form-control border-secondary" name="Idproducto" value="" id="Idproducto" placeholder="Id producto" require>
                                                 <label for="floatingInput">Id</label>
                                             </div>
                                             <div class="form-floating mb-3">
@@ -323,7 +340,7 @@ if ($_SESSION['session'] == true) {
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary">Agendar producto</button>
+                                            <button type="submit" class="btn btn-primary">Agregar producto</button>
                                         </div>
 
                                     </form>

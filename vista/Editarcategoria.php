@@ -4,12 +4,17 @@ $conexion = new MySQL();
 $pdo = $conexion->conectar();
 
 $idCategorias = $_GET['idCategorias'];
-
-$sql = "SELECT * FROM categorias where idCategorias = :idCategorias";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':idCategorias', $idCategorias, PDO::PARAM_STR);
-$stmt->execute();
-$fila = $stmt->fetch(PDO::FETCH_ASSOC);
+if(isset($idCategorias) && !empty($idCategorias))
+{
+    $sql = "SELECT * FROM categorias where idCategorias = :idCategorias";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idCategorias', $idCategorias, PDO::PARAM_STR);
+    $stmt->execute();
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);  
+}
+else{
+    header("Location: ./agregarCategorias.php");
+}
 
 ?>
 
@@ -266,7 +271,7 @@ $fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 
-                        <button type="submit" class="btn btn-primary mt-4">Editar Mascota</button>
+                        <button type="submit" class="btn btn-primary mt-4">Editar Categoria</button>
 
                     </form>
 

@@ -13,7 +13,7 @@ if (
     $conexion = new MySQL();
     $pdo = $conexion->conectar();
 
-
+    // Se agrega una categoria
     $sql =  "INSERT INTO categorias (idCategorias, nombre) VALUES (:Idcategoria, :nombre)";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':Idcategoria', $Idcategoria, PDO::PARAM_INT);
@@ -21,9 +21,11 @@ if (
 
     $stmt->execute();
     header("Location: ../../vista/agregarCategorias.php");
-    $_SESSION['mensajeErr2'] = "Felicidades";
-    $_SESSION['mensajeErr'] = "SE han agregado la cantidad de existencias";
+    $_SESSION['mensajeErr2'] = "Se ha agregado la categoria";
+    $_SESSION['mensajeErr'] = "Felicidades";
 } else {
-    echo $Idcategoria;
-    echo $nombre;
+
+    header("Location: ../../vista/agregarCategorias.php");
+    $_SESSION['mensajeErr4'] = "Debes llenar todos los campos";
+    $_SESSION['mensajeErr3'] = "Error";
 }

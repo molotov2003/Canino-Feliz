@@ -24,7 +24,7 @@ if (
     $stmt2->bindParam(':idProductos', $idProductos, PDO::PARAM_INT);
     $stmt2->execute();
     if ($stmt2->rowCount() > 0) {
-
+        //si el producto existe se  actuliza la existencia 
         $sql3 = "UPDATE productos set nombre =:nombre, existencia = existencia +:existencia ,precio = :precio, Categorias_idCategorias = :Categorias_idCategorias WHERE idProductos =:idProductos ";
         $stmt3 = $pdo->prepare($sql3);
         $stmt3->bindParam(':idProductos', $idProductos, PDO::PARAM_INT);
@@ -37,6 +37,7 @@ if (
         $_SESSION['mensajeErr2'] = "Felicidades";
         $_SESSION['mensajeErr'] = "SE han agregado la cantidad de existencias";
     } else {
+        //se agregar un nuevo producto
         $sql =  "INSERT INTO productos (idProductos, nombre, existencia, precio, Categorias_idCategorias) VALUES (:idProductos, :nombre, :existencia , :precio,  :Categorias_idCategorias)";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':idProductos', $idProductos, PDO::PARAM_INT);
@@ -50,4 +51,7 @@ if (
         header("Location: ../../vista/agregarProducto.php");
     }
 } else {
+    header("Location: ../../vista/agregarProducto.php");
+    $_SESSION['mensajeErr4'] = "Error";
+    $_SESSION['mensajeErr3'] = "Debes llenar todos los campos";
 }

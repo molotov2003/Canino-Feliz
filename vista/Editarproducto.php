@@ -4,19 +4,25 @@ $conexion = new MySQL();
 $pdo = $conexion->conectar();
 
 $idProductos = $_GET['idProductos'];
+if(isset($idProductos) && !empty($idProductos))
+{
+    $sql = "SELECT * FROM productos where idProductos = :idProductos";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idProductos', $idProductos, PDO::PARAM_STR);
+    $stmt->execute();
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    //traigo las categorias
+    
+    $sql2 = "SELECT * FROM `categorias`";
+    $stmt2 = $pdo->prepare($sql2);
+    $stmt2->execute();
+    $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+}
+else{
+    header("Location: ./agregarProducto.php");
+}
 
-$sql = "SELECT * FROM productos where idProductos = :idProductos";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':idProductos', $idProductos, PDO::PARAM_STR);
-$stmt->execute();
-$fila = $stmt->fetch(PDO::FETCH_ASSOC);
-
-//traigo las categorias
-
-$sql2 = "SELECT * FROM `categorias`";
-$stmt2 = $pdo->prepare($sql2);
-$stmt2->execute();
-$fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -280,10 +286,7 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                             <input type="number" class="form-control border-secondary" name="precio" placeholder="name@example.com" value="<?php echo $fila['precio'] ?>">
                             <label for="floatingInput">Precio</label>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control border-secondary" name="iva" placeholder="name@example.com" value="<?php echo $fila['iva'] ?>">
-                            <label for="floatingInput">iva</label>
-                        </div>
+                     
 
                         <select name="Categorias_idCategorias" class="form-select" aria-label="Default select example">
 
