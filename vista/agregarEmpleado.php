@@ -226,30 +226,30 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </nav>
             <?php
-            if(isset($_SESSION['icono'])){
-             ?>
-             <script>
-                Swal.fire({
-                    icon: "<?php echo $_SESSION['icono']?>",
-                    title: "<?php echo $_SESSION['titulo']?>",
-                    text: "<?php echo $_SESSION['mensaje']?>",
-                });
-             </script>
-             <?php   
+            if (isset($_SESSION['icono'])) {
+            ?>
+                <script>
+                    Swal.fire({
+                        icon: "<?php echo $_SESSION['icono'] ?>",
+                        title: "<?php echo $_SESSION['titulo'] ?>",
+                        text: "<?php echo $_SESSION['mensaje'] ?>",
+                    });
+                </script>
+            <?php
             }
             unset($_SESSION['icono']);
             ?>
-             <?php
-            if(isset($_SESSION['icono2'])){
-             ?>
-             <script>
-                Swal.fire({
-                    icono2: "<?php echo $_SESSION['error']?>",
-                    title: "<?php echo $_SESSION['titulo2']?>",
-                    text: "<?php echo $_SESSION['mensajeTitu']?>",
-                });
-             </script>
-             <?php   
+            <?php
+            if (isset($_SESSION['icono2'])) {
+            ?>
+                <script>
+                    Swal.fire({
+                        icono2: "<?php echo $_SESSION['error'] ?>",
+                        title: "<?php echo $_SESSION['titulo2'] ?>",
+                        text: "<?php echo $_SESSION['mensajeTitu'] ?>",
+                    });
+                </script>
+            <?php
             }
             unset($_SESSION['icono']);
             ?>
@@ -265,14 +265,14 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <table class="table">
                                 <thead class="table-primary">
                                     <tr>
-                                        <th scope="col">cedula</th>
-                                        <th scope="col">nombre</th>
-                                        <th scope="col">apellido</th>
-                                        <th scope="col">telefono</th>
-                                        <th scope="col">password</th>
-                                        <th scope="col">rol</th>
-                                        <th scope="col">editar</th>
-                                        <th scope="col">eliminar</th>
+                                        <th scope="col">Cedula</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Apellido</th>
+                                        <th scope="col">Telefono</th>
+                                        <th scope="col">Password</th>
+                                        <th scope="col">Rol</th>
+                                        <th scope="col">Editar</th>
+                                        <th scope="col">Eliminar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -280,7 +280,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($fila as $datos) {
                                     ?>
                                         <tr>
-                                        <td><?php echo $datos['idEmpleados'] ?></td>
+                                            <td><?php echo $datos['idEmpleados'] ?></td>
                                             <td><?php echo $datos['nombre'] ?></td>
                                             <td><?php echo $datos['apellido'] ?></td>
                                             <td><?php echo $datos['telefono'] ?></td>
@@ -312,39 +312,35 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <form action="../controlador/agregarEmpleado.php" method="post">
                                 <div class="modal-body">
-                                <div class="form-floating mb-3">
+                                    <div class="form-floating mb-3">
                                         <input type="number" class="form-control border-secondary" id="idEmpleados" name="idEmpleados" placeholder="empleados">
-                                        <label for="floatingInput">cedula</label>
+                                        <label for="floatingInput">Cedula</label>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control border-secondary" id="nombre" name="nombre" placeholder="empleados">
-                                        <label for="floatingInput">Nombre Empleado</label>
+                                        <label for="floatingInput">Nombre del Empleado</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control border-secondary" id="apellido" name="apellido" placeholder="empleados" >
-                                        <label for="floatingInput">Apellido Empleado</label>
+                                        <input type="text" class="form-control border-secondary" id="apellido" name="apellido" placeholder="empleados">
+                                        <label for="floatingInput">Apellido del Empleado</label>
 
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control border-secondary" id="telefono" name="telefono" placeholder="empleados" >
-                                        <label for="floatingInput">telefono</label>
+                                        <input type="number" class="form-control border-secondary" id="telefono" name="telefono" placeholder="empleados">
+                                        <label for="floatingInput">Telefono</label>
 
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="password" class="form-control border-secondary" id="password" name="password" placeholder="empleados">
-                                        <label for="floatingInput">password</label>
+                                        <label for="floatingInput">Contraseña</label>
 
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="number" class="form-control border-secondary" id="rol" name="rol" placeholder="empleados" onkeypress="return onlyNumberKey(event)">
-                                        <label for="floatingInput">Rol Empleado</label>
-
-                                    </div>
-
-
+                                    <label for="rol" class="ms-2">Seleccione el Rol</label>
+                                    <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example" name="rol">
+                                        <option value="0">Administrador</option>
+                                        <option value="1">Empleado</option>
+                                    </select>
                                 </div>
-
-
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     <button type="submit" class="btn btn-primary">Agregar Empleado</button>
@@ -401,4 +397,3 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </body>
 
 </html>
-

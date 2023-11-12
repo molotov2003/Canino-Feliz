@@ -2,26 +2,34 @@
 include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
+if (isset($_GET['id'])) {
+    $idEmpleados = $_GET['id'];
+} else {
+    header('Location: ./agregarEmpleado.php');
+}
 
-$idEmpleados = $_GET['id'];
+if (isset($idEmpleados) && !empty($idEmpleados)) {
+    $sql = "SELECT * FROM empleados where idEmpleados = :idEmpleados";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idEmpleados', $idEmpleados, PDO::PARAM_STR);
+    $stmt->execute();
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$sql = "SELECT * FROM empleados where idEmpleados = :idEmpleados";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':idEmpleados', $idEmpleados, PDO::PARAM_STR);
-$stmt->execute();
-$fila = $stmt->fetch(PDO::FETCH_ASSOC);
+    $desencriptar = function ($valor) {
+        $clave = 'Una cadena, muy, muy larga para mejorar la encriptacion';
+        //Metodo de encriptaciÃ³n
+        $method = 'aes-256-cbc';
+        // Puedes generar una diferente usando la funcion $getIV()
+        $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
+        return base64_decode(openssl_decrypt($valor, $method, $clave, false, $iv));
+    };
+    $contra = $fila['password'];
+    $desencriptarpass = $desencriptar($contra);
+    $des = base64_decode($contra);
+} else {
+    header('Location: ./agregarEmpleado.php');
+}
 
-$desencriptar = function ($valor) {
-    $clave = 'Una cadena, muy, muy larga para mejorar la encriptacion';
-    //Metodo de encriptaciÃ³n
-    $method = 'aes-256-cbc';
-    // Puedes generar una diferente usando la funcion $getIV()
-    $iv = base64_decode("C9fBxl1EWtYTL1/M8jfstw==");
-    return base64_decode(openssl_decrypt($valor, $method, $clave, false, $iv));
-};
-$contra = $fila['password'];
-$desencriptarpass = $desencriptar($contra);
-$des = base64_decode($contra);
 ?>
 
 <!DOCTYPE html>
@@ -222,16 +230,16 @@ $des = base64_decode($contra);
                 </div>
             </nav>
             <?php
-            if(isset($_SESSION['icono'])){
-             ?>
-             <script>
-                Swal.fire({
-                    icon: "<?php echo $_SESSION['icono']?>",
-                    title: "<?php echo $_SESSION['titulo']?>",
-                    text: "<?php echo $_SESSION['mensaje']?>",
-                });
-             </script>
-             <?php   
+            if (isset($_SESSION['icono'])) {
+            ?>
+                <script>
+                    Swal.fire({
+                        icon: "<?php echo $_SESSION['icono'] ?>",
+                        title: "<?php echo $_SESSION['titulo'] ?>",
+                        text: "<?php echo $_SESSION['mensaje'] ?>",
+                    });
+                </script>
+            <?php
             }
             unset($_SESSION['icono']);
             ?>
@@ -269,10 +277,11 @@ $des = base64_decode($contra);
                             <input type="text" class="form-control border-secondary" name="password" placeholder="name@example.com" value="<?php echo  $des ?>">
                             <label for="floatingInput">contraseña</label>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control border-secondary" name="rol" placeholder="name@example.com" value="<?php echo $fila['rol'] ?>">
-                            <label for="floatingInput">rol</label>
-                        </div>
+                        <label for="rol" class="">Seleccione el Rol</label>
+                        <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example" name="rol">
+                            <option value="0">Administrador</option>
+                            <option value="1">Empleado</option>
+                        </select>
 
                         <button type="submit" class="btn btn-primary mt-4">Editar Empleado</button>
 

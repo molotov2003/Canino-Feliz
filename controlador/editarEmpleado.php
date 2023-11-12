@@ -7,7 +7,6 @@ if (
     && isset($_POST['apellido']) && !empty($_POST['apellido'])
     && isset($_POST['telefono']) && !empty($_POST['telefono'])
     && isset($_POST['password']) && !empty($_POST['password'])
-    && isset($_POST['rol']) && !empty($_POST['rol'])
 ) {
     $idEmpleados = $_POST['idEmpleados'];
     $nombre = $_POST['nombre'];
@@ -31,29 +30,25 @@ if (
     $encriptar = function ($password) use ($method, $clave, $iv) {
         return openssl_encrypt($password, $method, $clave, false, $iv);
     };
-    
-   
-        // Consulta preparada para evitar inyección de SQL
-        $sql = " UPDATE empleados SET  nombre=:nombre, apellido=:apellido, telefono=:telefono, password=:password, rol=:rol WHERE idEmpleados=:idEmpleados";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':idEmpleados', $idEmpleados, PDO  ::PARAM_STR);
-        $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
-        $stmt->bindParam(':apellido', $apellido, PDO::PARAM_STR);
-        $stmt->bindParam(':telefono', $telefono, PDO::PARAM_STR);
-        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
-        $stmt->bindParam(':rol', $rol, PDO::PARAM_STR);
-        $stmt->execute();
-        $_SESSION['icono'] =  "success";
-        $_SESSION['titulo']="Insercion Realizada";
-        $_SESSION['mensaje']="Empleado Correctamente";
-        header("Location: ../vista/agregarEmpleado.php");
-}else{
+
+
+    // Consulta preparada para evitar inyección de SQL
+    $sql = " UPDATE empleados SET  nombre=:nombre, apellido=:apellido, telefono=:telefono, password=:password, rol=:rol WHERE idEmpleados=:idEmpleados";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idEmpleados', $idEmpleados, PDO::PARAM_STR);
+    $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+    $stmt->bindParam(':apellido', $apellido, PDO::PARAM_STR);
+    $stmt->bindParam(':telefono', $telefono, PDO::PARAM_STR);
+    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+    $stmt->bindParam(':rol', $rol, PDO::PARAM_STR);
+    $stmt->execute();
+    $_SESSION['icono'] =  "success";
+    $_SESSION['titulo'] = "Insercion Realizada";
+    $_SESSION['mensaje'] = "Empleado Editado Correctamente";
+    header("Location: ../vista/agregarEmpleado.php");
+} else {
     $_SESSION['icono'] =  "error";
-    $_SESSION['titulo']="Error";
-    $_SESSION['mensaje']="Error de Insercion";
+    $_SESSION['titulo'] = "Error";
+    $_SESSION['mensaje'] = "No deje Campos Vacios";
     header("Location: ../vista/agregarEmpleado.php");
 }
-        
-        
-
-
