@@ -219,7 +219,9 @@
                                 <button class="btn btn-outline-primary" type="button" id="btnBuscarCliente">Buscar</button>
                                 <button class="btn btn-outline-danger" type="button" id="btnCancelarBuscarCliente">Cancelar</button>
                             </div>
-
+                            <h1 class="text-center fw-bold mt-4">
+                                BUSCAR PRODUCTO
+                            </h1>
                             <div class="input-group mt-5">
                                 <span class="input-group-text">Codigo Producto</span>
                                 <input type="number" id="codProd" name="codProd" aria-label="First name" class="form-control">

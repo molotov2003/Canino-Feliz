@@ -153,6 +153,9 @@ function agregar(e) {
             $("#cantidadProd").val("");
             cantidad2++;
             sumar();
+            botonAgregarTabla.setAttribute("disabled", "disabled");
+            const codProd = document.getElementById("codProd");
+            codProd.removeAttribute("readonly");
           } else {
             Swal.fire({
               icon: "error",
@@ -171,9 +174,6 @@ function agregar(e) {
     };
     let datos = JSON.stringify({ codigo: codigo, cantidad: cantidad });
     xhr.send(datos);
-    botonAgregarTabla.setAttribute("disabled", "disabled");
-    const codProd = document.getElementById("codProd");
-    codProd.removeAttribute("readonly");
   } else {
     Swal.fire({
       icon: "error",
@@ -298,7 +298,7 @@ function guardar(e) {
       let xhr = new XMLHttpRequest();
       let datosUseryCajero = {
         idCliente: cedula2,
-        idCajero: 1,
+        idCajero: 1112759212,
         total: total2,
         valorRecibido: valorRecibido2,
       };
@@ -314,6 +314,7 @@ function guardar(e) {
           Swal.fire("Factura Generada", "Venta Realizada", "success");
           setTimeout(() => {
             let ruta = window.location.href;
+            console.log(ruta);
             let rutaBien = ruta.split("vista/agregarventa.php#", "");
             let rutaCompleta = `${rutaBien}/Canino-Feliz/controlador/tickes/Ticket_Nro_${respuesta}.pdf`;
             const downloadLink = document.createElement("a");
