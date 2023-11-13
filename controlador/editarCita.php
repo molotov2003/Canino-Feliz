@@ -25,5 +25,5 @@ $stmt->bindParam(':fecha', $fecha, PDO::PARAM_STR);
 $stmt->execute();
 
 $_SESSION['mensaje2'] = "Felicidades";
-$_SESSION['mensaje'] = "Se ha editado correctamente. el precio es:" . "$" . number_format($precio, 0, ",", ".");
+$_SESSION['mensaje'] = "Se ha editado correctamente";
 header("Location: ../vista/listarCitas.php");
