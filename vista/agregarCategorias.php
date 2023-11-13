@@ -14,7 +14,6 @@ $stmt->execute();
 $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 /////////////////////////////////}
 // hago la consulta para traer el usuario
-if ($_SESSION['session'] == true) {
     $conexion = new MySQL();
     $pdo = $conexion->conectar();
     $sql = "SELECT idEmpleados FROM empleados WHERE idEmpleados=:idEmpleados";
@@ -376,7 +375,4 @@ if ($_SESSION['session'] == true) {
 
     </html>
 <?php
-} else {
-    header("Location: ../index.php");
-}
 ?>
