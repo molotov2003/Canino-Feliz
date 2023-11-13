@@ -246,7 +246,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     Swal.fire(
                         titulo,
                         msj,
-                        'success'
+                        'error'
                     )
                 </script>
             <?php

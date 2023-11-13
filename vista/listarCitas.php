@@ -26,11 +26,10 @@ $stmt4->execute();
 $fila4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
 
-$sql5 = "SELECT * FROM reservas";
+$sql5 = "SELECT reservas.idReservas, reservas.fecha, empleados.nombre AS nombre_empleado, clientes.nombre AS nombre_cliente, mascotas.nombre AS nombre_mascota, servicios.nombre AS nombre_servicio, servicios.precio AS precio_servicio FROM reservas INNER JOIN empleados ON reservas.Empleados_idEmpleados = empleados.idEmpleados INNER JOIN clientes ON reservas.Clientes_cedula = clientes.cedula INNER JOIN mascotas ON reservas.Mascotas_idMascotas = mascotas.idMascotas INNER JOIN servicios ON reservas.Servicios_idServicios = servicios.idServicios; ";
 $stmt5 = $pdo->prepare($sql5);
 $stmt5->execute();
 $fila5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
 
 ?>
 
@@ -306,11 +305,11 @@ $fila5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                                             <td><?php echo $datos5['idReservas'] ?></td>
                                             <td><?php echo $datos5['fecha'] ?></td>
-                                            <td><?php echo $datos5['Empleados_idEmpleados'] ?></td>
-                                            <td><?php echo $datos5['Clientes_cedula'] ?></td>
-                                            <td><?php echo $datos5['Servicios_idServicios'] ?></td>
-                                            <td><?php echo $datos5['Mascotas_idMascotas'] ?></td>
-                                            <td><?php echo $datos5['precio'] ?></td>
+                                            <td><?php echo $datos5['nombre_empleado'] ?></td>
+                                            <td><?php echo $datos5['nombre_cliente'] ?></td>
+                                            <td><?php echo $datos5['nombre_servicio'] ?></td>
+                                            <td><?php echo $datos5['nombre_mascota'] ?></td>
+                                            <td><?php echo number_format($datos5['precio_servicio'],  0, ",", ".") ?></td>
                                             <td><a href="./editarCita.php?id=<?php echo $datos5['idReservas'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
                                             <td> <a href="../controlador/eliminarReserva.php?id=<?php echo $datos5['idReservas'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
 
@@ -351,7 +350,7 @@ $fila5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                                         <div id="clientes" class="form-floating mb-3 mt-2">
                                             <select class="form-select border-secondary mt-3" id="cedula" name="cedula" aria-label="Default select example" onchange="select(this)">
-                                                <option value="0">Seleccione un Cliente: </option>
+                                                <option value="0">Seleccione un Cliente </option>
                                                 <?php foreach ($fila2 as $datos2) { ?>
                                                     <option value="<?php echo $datos2['cedula'] ?>"><?php echo $datos2['nombre'] . " " . $datos2['apellido'] ?></option>
                                                 <?php } ?>
