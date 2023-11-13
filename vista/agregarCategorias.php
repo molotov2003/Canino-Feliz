@@ -304,10 +304,7 @@ if ($_SESSION['session'] == true) {
                                     <form action="../controlador/categorias/AgregarCategoria.php" method="post">
                                         <div class="modal-body">
 
-                                            <div class="form-floating mb-3">
-                                                <input type="number" class="form-control border-secondary" name="Idcategoria" value="" require id="Idcategoria" placeholder="Id producto">
-                                                <label for="floatingInput">Id</label>
-                                            </div>
+                                            
                                             <div class="form-floating mb-3">
                                                 <input type="text" class="form-control border-secondary" name="Nombrecategoria" value="" require id="Nombrecategoria" placeholder="Nombrecategoria">
                                                 <label for="floatingInput">Nombre Categoria</label>

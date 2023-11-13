@@ -4,15 +4,13 @@ $conexion = new MySQL();
 $pdo = $conexion->conectar();
 
 $idCategorias = $_GET['idCategorias'];
-if(isset($idCategorias) && !empty($idCategorias))
-{
+if (isset($idCategorias) && !empty($idCategorias)) {
     $sql = "SELECT * FROM categorias where idCategorias = :idCategorias";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':idCategorias', $idCategorias, PDO::PARAM_STR);
     $stmt->execute();
-    $fila = $stmt->fetch(PDO::FETCH_ASSOC);  
-}
-else{
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+} else {
     header("Location: ./agregarCategorias.php");
 }
 
@@ -250,6 +248,8 @@ else{
                 unset($_SESSION['mensajeErr']);
             }
             ?>
+
+            
             <main class="main users chart-page" id="skip-target">
                 <div class="container text-center">
 
@@ -260,12 +260,12 @@ else{
                         <input hidden type="text" class="form-control border-secondary" name="idCategoria" value="<?php echo $idCategorias ?>">
 
                         <div class="form-floating mb-3">
-                            <input disabled type="text" class="form-control border-secondary" value="<?php echo $idCategorias ?>">
+                            <input disabled type="text" class="form-control border-secondary" value="<?php echo $idCategorias ?>" required>
                             <label for="floatingInput">Id de la categoria</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>">
+                            <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>" required>
                             <label for="floatingInput">Nombre</label>
                         </div>
 

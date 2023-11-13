@@ -41,6 +41,7 @@ else{
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 </head>
 
 <body>
@@ -262,33 +263,33 @@ else{
             <main class="main users chart-page" id="skip-target">
                 <div class="container text-center">
 
-                    <form action="../controlador/productos/Editarproducto.php" method="post">
+                    <form action="../controlador/productos/Editarproducto.php" method="post" class="login100-form validate-form">
 
                         <h2 class="mb-5">Editar Producto</h2>
 
-                        <input hidden type="text" class="form-control border-secondary" name="idProductos" value="<?php echo $idProductos ?>">
+                        <input hidden type="text" class="form-control border-secondary"  name="idProductos" value="<?php echo $idProductos ?>">
 
-                        <div class="form-floating mb-3">
-                            <input disabled type="number" class="form-control border-secondary" value="<?php echo $idProductos ?>">
+                        <div class="form-floating mb-3" data-validate="Id is required">
+                            <input disabled type="number" class="form-control border-secondary"  value="<?php echo $idProductos ?>">
                             <label for="floatingInput">Id de la categoria</label>
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>">
+                        <div class="form-floating mb-3" data-validate="Name is required">
+                            <input type="text"  class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>" required>
                             <label for="floatingInput">Nombre</label>
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control border-secondary" name="existencia" placeholder="name@example.com" value="<?php echo $fila['existencia'] ?>">
+                        <div class="form-floating mb-3" data-validate="Existence is required">
+                            <input type="number"  class="form-control border-secondary" name="existencia" placeholder="name@example.com" value="<?php echo $fila['existencia'] ?>" require>
                             <label for="floatingInput">Existencia</label>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control border-secondary" name="precio" placeholder="name@example.com" value="<?php echo $fila['precio'] ?>">
+                        <div class="form-floating mb-3" data-validate="Price is required">
+                            <input type="number"  class="form-control border-secondary" name="precio" placeholder="name@example.com" value="<?php echo $fila['precio'] ?>" required>
                             <label for="floatingInput">Precio</label>
                         </div>
                      
 
-                        <select name="Categorias_idCategorias" class="form-select" aria-label="Default select example">
+                        <select name="Categorias_idCategorias"  class="form-select" aria-label="Default select example">
 
                             <?php foreach ($fila2 as $categorias) { ?>
 
@@ -325,6 +326,7 @@ else{
     <script src="../plugins/feather.min.js"></script>
     <!-- Custom scripts -->
     <script src="../js/script.js"></script>
+    
 </body>
 
 </html>
