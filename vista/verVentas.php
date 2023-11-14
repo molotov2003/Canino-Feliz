@@ -1,14 +1,14 @@
 <?php
-session_start();
+//
 include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
-$sql = "SELECT * FROM empleados";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
+/////////////////////////////
+$sql2 = "SELECT encabezado.idEncabezado,encabezado.fecha,empleados.nombre,encabezado.clientes_cedula, encabezado.total FROM encabezado INNER JOIN empleados 
+WHERE empleados.idEmpleados=encabezado.Empleados_idEmpleados";
+$stmt2 = $pdo->prepare($sql2);
+$stmt2->execute();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,12 +19,17 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -65,14 +70,6 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="./agregarServicio.php">
-                                <span class="icon message" aria-hidden="true"></span>
-                                Gestión de servicios
-                            </a>
-
-                        </li>
-
                         <li>
                             <a href="./registroCliente.php">
                                 <span class="icon message" aria-hidden="true"></span>
@@ -145,6 +142,9 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <li>
                                     <a href="./agregarventa.php">Agregar Venta de Productos</a>
                                 </li>
+                                <li>
+                                    <a href="./verVentas.php">Ver Venta</a>
+                                </li>
                             </ul>
                         </li>
 
@@ -180,10 +180,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <nav class="main-nav--bg">
                 <div class="container main-nav">
                     <div class="main-nav-start">
-                        <div class="search-wrapper">
-                            <i data-feather="search" aria-hidden="true"></i>
-                            <input type="text" placeholder="Enter keywords ..." required />
-                        </div>
+
                     </div>
                     <div class="main-nav-end">
                         <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
@@ -225,134 +222,53 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </nav>
-            <?php
-            if (isset($_SESSION['icono'])) {
-            ?>
-                <script>
-                    Swal.fire({
-                        icon: "<?php echo $_SESSION['icono'] ?>",
-                        title: "<?php echo $_SESSION['titulo'] ?>",
-                        text: "<?php echo $_SESSION['mensaje'] ?>",
-                    });
-                </script>
-            <?php
-            }
-            unset($_SESSION['icono']);
-            ?>
-            <?php
-            if (isset($_SESSION['icono2'])) {
-            ?>
-                <script>
-                    Swal.fire({
-                        icono2: "<?php echo $_SESSION['error'] ?>",
-                        title: "<?php echo $_SESSION['titulo2'] ?>",
-                        text: "<?php echo $_SESSION['mensajeTitu'] ?>",
-                    });
-                </script>
-            <?php
-            }
-            unset($_SESSION['icono']);
-            ?>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
-
                 <div class="container">
-
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="borrar()"><i class="bi bi-plus-circle-dotted"></i></button>
-
                     <div class="row">
-                        <div class="col-12 mt-3">
-                            <table class="table">
-                                <thead class="table-primary">
+                        <div class="col-12">
+                            <table class="table" id="tablaVentas">
+                                <thead class="text-center table-dark">
                                     <tr>
-                                        <th scope="col">Cedula</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Apellido</th>
-                                        <th scope="col">Telefono</th>
-                                        <th scope="col">Password</th>
-                                        <th scope="col">Rol</th>
-                                        <th scope="col">Editar</th>
-                                        <th scope="col">Eliminar</th>
+                                        <th scope="col">N° de Ticket</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Nombre Empleado</th>
+                                        <th scope="col">Cedula Cliente</th>
+                                        <th scope="col">Total Venta</th>
+                                        <th scope="col">Ver</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="text-center">
                                     <?php
-                                    foreach ($fila as $datos) {
+                                    while ($fila = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                                        $valor = number_format(
+                                            $fila["total"],
+                                            0,
+                                            ",",
+                                            ".",
+                                        );
                                     ?>
                                         <tr>
-                                            <td><?php echo $datos['idEmpleados'] ?></td>
-                                            <td><?php echo $datos['nombre'] ?></td>
-                                            <td><?php echo $datos['apellido'] ?></td>
-                                            <td><?php echo $datos['telefono'] ?></td>
-                                            <td><?php echo $datos['password'] ?></td>
-                                            <td><?php echo $datos['rol'] ?></td>
-                                            <td><a href="../vista/editarEmpleado.php?id=<?php echo $datos['idEmpleados'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
-                                            <td> <a href="../controlador/eliminarEmpleado.php?id=<?php echo $datos['idEmpleados'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
-
-
+                                            <th scope="row"><?php echo $fila['idEncabezado'] ?></th>
+                                            <td><?php echo $fila['fecha'] ?></td>
+                                            <td><?php echo $fila['nombre'] ?></td>
+                                            <td><?php echo $fila['clientes_cedula'] ?></td>
+                                            <td><?php echo $valor ?></td>
+                                            <td>
+                                                <button type="button" class="btn btn-light" onclick="descargar('<?php echo $fila['idEncabezado'] ?>')"> <i class="bi bi-eye-fill"></i></button>
+                                            </td>
                                         </tr>
                                     <?php
                                     }
                                     ?>
-
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
-
-                <!-- Modal -->
-                <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Empleado</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form action="../controlador/agregarEmpleado.php" method="post">
-                                <div class="modal-body">
-                                    <div class="form-floating mb-3">
-                                        <input type="number" class="form-control border-secondary" id="idEmpleados" name="idEmpleados" placeholder="empleados">
-                                        <label for="floatingInput">Cedula</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control border-secondary" id="nombre" name="nombre" placeholder="empleados">
-                                        <label for="floatingInput">Nombre del Empleado</label>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control border-secondary" id="apellido" name="apellido" placeholder="empleados">
-                                        <label for="floatingInput">Apellido del Empleado</label>
-
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="number" class="form-control border-secondary" id="telefono" name="telefono" placeholder="empleados">
-                                        <label for="floatingInput">Telefono</label>
-
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="password" class="form-control border-secondary" id="password" name="password" placeholder="empleados">
-                                        <label for="floatingInput">Contraseña</label>
-
-                                    </div>
-                                    <label for="rol" class="ms-2">Seleccione el Rol</label>
-                                    <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example" name="rol">
-                                        <option value="0">Administrador</option>
-                                        <option value="1">Empleado</option>
-                                    </select>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Agregar Empleado</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
+                <script>
+                    new DataTable('#tablaVentas');
+                </script>
             </main>
             <!-- ! Footer -->
             <footer class="footer">
@@ -366,34 +282,32 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </footer>
         </div>
     </div>
+
     <script>
-        function borrar() {
-            document.getElementById("idEmpleados").value = "";
-            document.getElementById("nombre").value = "";
-            document.getElementById("apellido").value = "";
-            document.getElementById("telefono").value = "";
-            document.getElementById("password").value = "";
-            document.getElementById("rol").value = "";
-
-        }
-
-        function onlyNumberKey(evt) {
-
-            // Only ASCII character in that range allowed
-            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-                return false;
-            return true;
+        function descargar(id2) {
+            let ruta = window.location.href;
+            let rutaBien = ruta.split("vista/verVentas.php", "");
+            let rutaCompleta = `${rutaBien}/Canino-Feliz/controlador/tickes/Ticket_Nro_${id2}.pdf`;
+            const downloadLink = document.createElement("a");
+            downloadLink.href = rutaCompleta;
+            downloadLink.style.display = "none";
+            downloadLink.download = `Ticket_Nro_${id2}.pdf`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
         }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
     <script src="../plugins/feather.min.js"></script>
     <!-- Custom scripts -->
     <script src="../js/script.js"></script>
+    <script src="../controlador/prueba.js"></script>
+
 </body>
 
 </html>
