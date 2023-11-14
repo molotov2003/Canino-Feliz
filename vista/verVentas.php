@@ -1,3 +1,15 @@
+<?php
+//
+include("../modelo/MySQL.php");
+$conexion = new MySQL();
+$pdo = $conexion->conectar();
+/////////////////////////////
+$sql2 = "SELECT encabezado.idEncabezado,encabezado.fecha,empleados.nombre,encabezado.clientes_cedula, encabezado.total FROM encabezado INNER JOIN empleados 
+WHERE empleados.idEmpleados=encabezado.Empleados_idEmpleados";
+$stmt2 = $pdo->prepare($sql2);
+$stmt2->execute();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,11 +19,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -208,73 +226,49 @@
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 text-center">
-                            <h1 class="text-center fw-bold">
-                                USUARIO
-                            </h1>
-                            <div class="input-group mt-5">
-                                <span class="input-group-text">Cedula</span>
-                                <input type="number" id="cedula" name="cedula" aria-label="First name" class="form-control">
-                                <input type="text" class="form-control" placeholder="Nombre" name="nombreClien" id="nombreClien" aria-label="Recipient's username" aria-describedby="button-addon2" readonly>
-                                <button class="btn btn-outline-primary" type="button" id="btnBuscarCliente">Buscar</button>
-                                <button class="btn btn-outline-danger" type="button" id="btnCancelarBuscarCliente">Cancelar</button>
-                            </div>
-                            <h1 class="text-center fw-bold mt-4">
-                                BUSCAR PRODUCTO
-                            </h1>
-                            <div class="input-group mt-5">
-                                <span class="input-group-text">Codigo Producto</span>
-                                <input type="number" id="codProd" name="codProd" aria-label="First name" class="form-control">
-                                <button class="btn btn-outline-primary" type="button" id="buscarProd" name="buscarProd">Buscar</button>
-                                <button class="btn btn-outline-danger" type="button" id="buscarProdCanc" name="buscarProd">Cancelar</button>
-                            </div>
-                            <div class="input-group mt-2">
-                                <span class="input-group-text">Nombre </span>
-                                <input type="text" aria-label="First name" class="form-control" name="nombreProd" id="nombreProd" readonly>
-                            </div>
-                            <div class="input-group mt-2">
-                                <span class="input-group-text">Precio </span>
-                                <input type="text" aria-label="First name" class="form-control" name="precioProd" id="precioProd" readonly>
-                            </div>
-                            <div class="input-group mt-2">
-                                <span class="input-group-text">Cantidad</span>
-                                <input type="number" aria-label="First name" class="form-control" name="cantidadProd" id="cantidadProd">
-                            </div>
-                            <h1 class="text-center mt-5 mb-5">
-                                <button type="button" id="AgregarProd" name="AgregarProd" class="btn btn-primary" disabled>Agregar</button>
-                            </h1>
-                        </div>
                         <div class="col-12">
-                            <h1 class="text-center fw-bold">
-                                PRODUCTOS
-                            </h1>
-                            <table class="table mt-5 text-center" id="tabla">
-                                <thead class="table-primary">
+                            <table class="table" id="tablaVentas">
+                                <thead class="text-center table-dark">
                                     <tr>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Precio</th>
-                                        <th scope="col">Cantidad</th>
-                                        <th scope="col">Total</th>
-                                        <th scope="col">Eliminar</th>
-                                        <th scope="col">Editar</th>
+                                        <th scope="col">N° de Ticket</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Nombre Empleado</th>
+                                        <th scope="col">Cedula Cliente</th>
+                                        <th scope="col">Total Venta</th>
+                                        <th scope="col">Ver</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-
+                                <tbody class="text-center">
+                                    <?php
+                                    while ($fila = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                                        $valor = number_format(
+                                            $fila["total"],
+                                            0,
+                                            ",",
+                                            ".",
+                                        );
+                                    ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $fila['idEncabezado'] ?></th>
+                                            <td><?php echo $fila['fecha'] ?></td>
+                                            <td><?php echo $fila['nombre'] ?></td>
+                                            <td><?php echo $fila['clientes_cedula'] ?></td>
+                                            <td><?php echo $valor ?></td>
+                                            <td>
+                                                <button type="button" class="btn btn-light" onclick="descargar('<?php echo $fila['idEncabezado'] ?>')"> <i class="bi bi-eye-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
-                            <h2 class="mt-4">Total: <span id="total"></span></h2>
-                            <div class="input-group mt-5">
-                                <span class="input-group-text">Valor Recibido</span>
-                                <input type="number" aria-label="First name" class="form-control" name="valorRecibido" id="valorRecibido">
-                            </div>
-                            <h1 class="text-center mt-5">
-                                <button type="button" id="guardar" name="guardar" class="btn btn-primary" disabled>Guardar Compra</button>
-                            </h1>
                         </div>
-
                     </div>
                 </div>
+                <script>
+                    new DataTable('#tablaVentas');
+                </script>
             </main>
             <!-- ! Footer -->
             <footer class="footer">
@@ -289,6 +283,20 @@
         </div>
     </div>
 
+    <script>
+        function descargar(id2) {
+            let ruta = window.location.href;
+            let rutaBien = ruta.split("vista/verVentas.php", "");
+            let rutaCompleta = `${rutaBien}/Canino-Feliz/controlador/tickes/Ticket_Nro_${id2}.pdf`;
+            const downloadLink = document.createElement("a");
+            downloadLink.href = rutaCompleta;
+            downloadLink.style.display = "none";
+            downloadLink.download = `Ticket_Nro_${id2}.pdf`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
