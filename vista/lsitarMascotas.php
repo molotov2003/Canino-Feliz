@@ -27,13 +27,21 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <!-- links datatable -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+     <!-- Fin links datatable -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -256,7 +264,7 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                 <div class="container">
                     <button type="button" onclick="borrar()" class="btn btn-info mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class="bi bi-plus-circle-dotted"></i> </button>
 
-                    <table class="table">
+                    <table class="table table-striped" id="tableMascotas">
                         <thead>
                             <tr>
                                 <th scope="col">Nombre</th>
@@ -363,6 +371,8 @@ $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     <script>
+        new DataTable('#tableMascotas');
+        
         function onlyNumberKey(evt) {
 
             // Only ASCII character in that range allowed
