@@ -1,33 +1,29 @@
-
 <?php
-//////////////////////////////////
-session_start();
-
-include('../modelo/MySQL.php');
+include("../modelo/MySQL.php");
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
-// traigo el usuario
-$idEmpleados = new MySQL();
 
-//traigo los productos
-$sql = "SELECT * FROM `productos`";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//traigo las categorias
+$idProductos = $_GET['idProductos'];
+if(isset($idProductos) && !empty($idProductos))
+{
+    $sql = "SELECT * FROM productos where idProductos = :idProductos";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idProductos', $idProductos, PDO::PARAM_STR);
+    $stmt->execute();
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    //traigo las categorias
+    
+    $sql2 = "SELECT * FROM `categorias`";
+    $stmt2 = $pdo->prepare($sql2);
+    $stmt2->execute();
+    $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+}
+else{
+    header("Location: ./agregarProducto.php");
+}
 
-$sql2 = "SELECT * FROM `categorias`";
-$stmt2 = $pdo->prepare($sql2);
-$stmt2->execute();
-$fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
-
-$conexion = new MySQL();
-$pdo = $conexion->conectar();
-$sql = "SELECT idEmpleados FROM empleados WHERE idEmpleados=:idEmpleados";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':idEmpleados', $user, PDO::PARAM_STR);
-$stmt->execute();
 ?>
 
 <!DOCTYPE html>
@@ -38,18 +34,14 @@ $stmt->execute();
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
     <!-- Custom styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/style.min.css" />
-
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 </head>
 
 <body>
@@ -98,22 +90,10 @@ $stmt->execute();
 
                         </li>
                         <li>
-                            <a class="show-cat-btn" href="##">
+                            <a href="./lsitarMascotas.php">
                                 <span class="icon document" aria-hidden="true"></span>Registro de Mascotas
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
                             </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="./lsitarMascotas.php">Listar Mascotas</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarMascotas.php">Agregar Mascotas</a>
-                                </li>
 
-                            </ul>
                         </li>
                         <li>
                             <a class="show-cat-btn" href="##">
@@ -198,8 +178,11 @@ $stmt->execute();
                 <div class="container main-nav">
                     <div class="main-nav-start">
                         <div class="search-wrapper">
-                            <i data-feather="search" aria-hidden="true"></i>
-                            <input type="text" placeholder="Enter keywords ..." required />
+                            <form action="" method="post">
+                                <i data-feather="search" aria-hidden="true"></i>
+                                <input type="text" placeholder="Buscar Clientes" required />
+                                <button class="btn btn-primary"> <i class="bi bi-search"></i> </button>
+                            </form>
                         </div>
                     </div>
                     <div class="main-nav-end">
@@ -276,138 +259,74 @@ $stmt->execute();
                 unset($_SESSION['mensajeErr']);
             }
             ?>
-            <?php
-            if (isset($_SESSION['mensajeErr3'])) {
-            ?>
-                <script>
-                    let msj = '<?php echo $_SESSION['mensajeErr3'] ?>'
-                    let titulo = '<?php echo $_SESSION['mensajeErr4'] ?>'
-                    Swal.fire(
-                        titulo,
-                        msj,
-                        'error'
-                    )
-                </script>
-            <?php
-                unset($_SESSION['mensajeErr3']);
-            }
-            ?>
-
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
-                <div class="container">
+                <div class="container text-center">
 
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-circle-dotted"></i></button>
+                    <form action="../controlador/productos/Editarproducto.php" method="post" class="login100-form validate-form">
 
+                        <h2 class="mb-5">Editar Producto</h2>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar producto</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action="../controlador/productos/AgregarProductos.php" method="post">
-                                    <div class="modal-body">
+                        <input hidden type="text" class="form-control border-secondary"  name="idProductos" value="<?php echo $idProductos ?>">
 
-                                        <div class="form-floating mb-3">
-                                            <input type="number" class="form-control border-secondary" name="Idproducto" value="" id="Idproducto" placeholder="Id producto" require>
-                                            <label for="floatingInput">Id</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control border-secondary" name="Nombreproducto" value="" id="Nombreproducto" placeholder="Nombre producto">
-                                            <label for="floatingInput">Nombre producto</label>
-                                        </div>
-                                        <div class="form-floating mb-3 mt-3">
-                                            <input type="number" class="form-control border-secondary" name="Existencia" id="Existencia" placeholder="existencia">
-                                            <label for="floatingInput">Existencia</label>
-                                        </div>
-                                        <div class="form-floating mb-3 mt-3">
-                                            <input type="number" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
-                                            <label for="floatingInput">Precio</label>
-                                        </div>
-
-
-                                        <select name="Idcategoria" class="form-select" aria-label="Default select example">
-
-                                            <?php foreach ($fila2 as $categorias) { ?>
-
-                                                <option value="<?php echo $categorias['idCategorias'] ?>"><?php echo $categorias['nombre'] ?></option>
-
-                                            <?php } ?>
-                                        </select>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Agregar producto</button>
-                                    </div>
-
-                                </form>
-                            </div>
+                        <div class="form-floating mb-3" data-validate="Id is required">
+                            <input disabled type="number" class="form-control border-secondary"  value="<?php echo $idProductos ?>">
+                            <label for="floatingInput">Id de la categoria</label>
                         </div>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Id</th>
-                                        <th scope="col">Nombre </th>
-                                        <th scope="col">Existencia</th>
-                                        <th scope="col">Precio</th>
 
-                                        <th scope="col">Eliminar</th>
-                                        <th scope="col">Editar</th>
-                                    </tr>
-                                </thead>
-                                <?php foreach ($fila as $productos) { ?>
-
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row"><?php echo $productos['idProductos']  ?></th>
-                                            <td><?php echo $productos['nombre']  ?></td>
-                                            <td><?php echo $productos['existencia']  ?></td>
-                                            <td><?php echo number_format($productos['precio'], 0, ",", ".")  ?></td>
-
-                                            <td><a class="btn btn-danger" href="../controlador/productos/Eliminarproductos.php?idProductos=<?php echo $productos['idProductos'] ?>" class="card-link me-5 fw-bold fs-3"><i class="bi bi-trash3-fill"></i></a></td>
-
-
-                                            <td><a class="btn btn-primary" href="../vista/Editarproducto.php?idProductos=<?php echo $productos['idProductos']  ?>" class="card-link me-5 fw-bold fs-3"><i class="bi bi-pencil-square"></i></a></td>
-                                        </tr>
-
-                                    </tbody>
-
-                                <?php } ?>
-                            </table>
+                        <div class="form-floating mb-3" data-validate="Name is required">
+                            <input type="text"  class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>" required>
+                            <label for="floatingInput">Nombre</label>
                         </div>
-                    </div>
+
+                        <div class="form-floating mb-3" data-validate="Existence is required">
+                            <input type="number"  class="form-control border-secondary" name="existencia" placeholder="name@example.com" value="<?php echo $fila['existencia'] ?>" require>
+                            <label for="floatingInput">Existencia</label>
+                        </div>
+                        <div class="form-floating mb-3" data-validate="Price is required">
+                            <input type="number"  class="form-control border-secondary" name="precio" placeholder="name@example.com" value="<?php echo $fila['precio'] ?>" required>
+                            <label for="floatingInput">Precio</label>
+                        </div>
+                     
+
+                        <select name="Categorias_idCategorias"  class="form-select" aria-label="Default select example">
+
+                            <?php foreach ($fila2 as $categorias) { ?>
+
+                                <option value="<?php echo $categorias['idCategorias'] ?>"><?php echo $categorias['nombre'] ?></option>
+
+                            <?php } ?>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary mt-4">Editar Producto</button>
+
+                    </form>
+
                 </div>
+
+
+
             </main>
             <!-- ! Footer -->
             <footer class="footer">
                 <div class="container footer--flex">
                     <div class="footer-start">
                         <p>
-                            2023 © Peluqueria el Canino Feliz-
+                            2023 ©️ Peluqueria el Canino Feliz-
                         </p>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
     <script src="../plugins/feather.min.js"></script>
     <!-- Custom scripts -->
     <script src="../js/script.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
 </body>
 
 </html>
-<?php
-?>
-

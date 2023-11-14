@@ -1,8 +1,11 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Login V4</title>
+    <title>Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -30,19 +33,33 @@
 </head>
 
 <body>
-
+    <?php
+    if (isset($_SESSION['mensajeErr3'])) {
+    ?>
+        <script>
+            let msj = '<?php echo $_SESSION['mensajeErr4'] ?>'
+            let titulo = '<?php echo $_SESSION['mensajeErr3'] ?>'
+            Swal.fire(
+                titulo,
+                msj,
+                'error'
+            )
+        </script>
+    <?php
+        unset($_SESSION['mensajeErr3']);
+    }
+    ?>
     <div class="limiter">
         <div class="container-login100" style="background-image: url('images2/bg-01.jpg');">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                <form class="login100-form validate-form">
+                <form action="./controlador/Login.php" method="post" id="loginform" class="login100-form validate-form">
                     <span class="login100-form-title p-b-49">
                         Inicio
                     </span>
                     <img src="./images2/logoCanino.png" alt="">
-
-                    <div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
-                        <label for="idEmpleados">Cedula</span>
-                        <input class="input100" type="text" name="idEmpleados" id="idEmpleados" placeholder="cedula">
+                    <div class="wrap-input100 validate-input m-b-23" data-validate="Username is required">
+                        <span class="label-input100">Cedula</span>
+                        <input class="input100" type="text" name="idEmpleados" placeholder="Cedula">
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
                     </div>
 
