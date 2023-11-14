@@ -307,8 +307,9 @@ $fila5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?php echo $datos5['fecha'] ?></td>
                                             <td><?php echo $datos5['nombre_empleado'] ?></td>
                                             <td><?php echo $datos5['nombre_cliente'] ?></td>
-                                            <td><?php echo $datos5['nombre_servicio'] ?></td>
                                             <td><?php echo $datos5['nombre_mascota'] ?></td>
+                                            <td><?php echo $datos5['nombre_servicio'] ?></td>
+
                                             <td><?php echo number_format($datos5['precio_servicio'],  0, ",", ".") ?></td>
                                             <td><a href="./editarCita.php?id=<?php echo $datos5['idReservas'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
                                             <td> <a href="../controlador/eliminarReserva.php?id=<?php echo $datos5['idReservas'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
