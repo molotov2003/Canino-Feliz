@@ -1,3 +1,15 @@
+<?php
+session_start();
+include("../modelo/MySQL.php");
+$conexion = new MySQL();
+$pdo = $conexion->conectar();
+$sql = "SELECT * FROM empleados";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,10 +18,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Favicon -->
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -50,6 +65,14 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="./agregarServicio.php">
+                                <span class="icon message" aria-hidden="true"></span>
+                                Gestión de servicios
+                            </a>
+
+                        </li>
+
                         <li>
                             <a href="./registroCliente.php">
                                 <span class="icon message" aria-hidden="true"></span>
@@ -202,11 +225,134 @@
                     </div>
                 </div>
             </nav>
+            <?php
+            if (isset($_SESSION['icono'])) {
+            ?>
+                <script>
+                    Swal.fire({
+                        icon: "<?php echo $_SESSION['icono'] ?>",
+                        title: "<?php echo $_SESSION['titulo'] ?>",
+                        text: "<?php echo $_SESSION['mensaje'] ?>",
+                    });
+                </script>
+            <?php
+            }
+            unset($_SESSION['icono']);
+            ?>
+            <?php
+            if (isset($_SESSION['icono2'])) {
+            ?>
+                <script>
+                    Swal.fire({
+                        icono2: "<?php echo $_SESSION['error'] ?>",
+                        title: "<?php echo $_SESSION['titulo2'] ?>",
+                        text: "<?php echo $_SESSION['mensajeTitu'] ?>",
+                    });
+                </script>
+            <?php
+            }
+            unset($_SESSION['icono']);
+            ?>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
+
                 <div class="container">
 
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="borrar()"><i class="bi bi-plus-circle-dotted"></i></button>
+
+                    <div class="row">
+                        <div class="col-12 mt-3">
+                            <table class="table">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th scope="col">Cedula</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Apellido</th>
+                                        <th scope="col">Telefono</th>
+                                        <th scope="col">Password</th>
+                                        <th scope="col">Rol</th>
+                                        <th scope="col">Editar</th>
+                                        <th scope="col">Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($fila as $datos) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $datos['idEmpleados'] ?></td>
+                                            <td><?php echo $datos['nombre'] ?></td>
+                                            <td><?php echo $datos['apellido'] ?></td>
+                                            <td><?php echo $datos['telefono'] ?></td>
+                                            <td><?php echo $datos['password'] ?></td>
+                                            <td><?php echo $datos['rol'] ?></td>
+                                            <td><a href="../vista/editarEmpleado.php?id=<?php echo $datos['idEmpleados'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
+                                            <td> <a href="../controlador/eliminarEmpleado.php?id=<?php echo $datos['idEmpleados'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
+
+
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+
+                <!-- Modal -->
+                <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Empleado</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="../controlador/agregarEmpleado.php" method="post">
+                                <div class="modal-body">
+                                    <div class="form-floating mb-3">
+                                        <input type="number" class="form-control border-secondary" id="idEmpleados" name="idEmpleados" placeholder="empleados">
+                                        <label for="floatingInput">Cedula</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control border-secondary" id="nombre" name="nombre" placeholder="empleados">
+                                        <label for="floatingInput">Nombre del Empleado</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control border-secondary" id="apellido" name="apellido" placeholder="empleados">
+                                        <label for="floatingInput">Apellido del Empleado</label>
+
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="number" class="form-control border-secondary" id="telefono" name="telefono" placeholder="empleados">
+                                        <label for="floatingInput">Telefono</label>
+
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control border-secondary" id="password" name="password" placeholder="empleados">
+                                        <label for="floatingInput">Contraseña</label>
+
+                                    </div>
+                                    <label for="rol" class="ms-2">Seleccione el Rol</label>
+                                    <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example" name="rol">
+                                        <option value="0">Administrador</option>
+                                        <option value="1">Empleado</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Agregar Empleado</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
             </main>
             <!-- ! Footer -->
             <footer class="footer">
@@ -220,6 +366,28 @@
             </footer>
         </div>
     </div>
+    <script>
+        function borrar() {
+            document.getElementById("idEmpleados").value = "";
+            document.getElementById("nombre").value = "";
+            document.getElementById("apellido").value = "";
+            document.getElementById("telefono").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("rol").value = "";
+
+        }
+
+        function onlyNumberKey(evt) {
+
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
