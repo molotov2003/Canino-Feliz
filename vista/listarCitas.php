@@ -75,8 +75,9 @@ $fila5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                         <li>
                             <a href="./listarCitas.php">
-                                <span class="icon message" aria-hidden="true"></span>
+                                <span class="icon " aria-hidden="true"></span>
                                 Gestión de Citas
+
                             </a>
 
                         </li>

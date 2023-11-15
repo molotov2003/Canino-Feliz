@@ -36,6 +36,7 @@ if (
                 $arrayres = explode("/", $arregloServicio[$i]);
                 $idservicio = $arrayres[0];
                 $precio = $arrayres[1];
+
                 $sql = "INSERT INTO reservas (fecha, Empleados_idEmpleados, Clientes_cedula, Servicios_idServicios, Mascotas_idMascotas ) values (:fechaCita, :idEmpleado, :cedula, :servicio,:mascota)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':idEmpleado', $idEmpleado, PDO::PARAM_INT);
