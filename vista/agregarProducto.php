@@ -1,4 +1,3 @@
-
 <?php
 //////////////////////////////////
 session_start();
@@ -34,12 +33,22 @@ $stmt->execute();
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peluqueria el Canino Feliz</title>
     <!-- Favicon -->
+    <!--javascript -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <!--css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
+
     <!-- Custom styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
@@ -320,11 +329,11 @@ $stmt->execute();
                                             <label for="floatingInput">Nombre producto</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-3">
-                                            <input type="number" class="form-control border-secondary" name="Existencia" id="Existencia" placeholder="existencia">
+                                            <input type="number" min="1" class="form-control border-secondary" name="Existencia" id="Existencia" placeholder="existencia">
                                             <label for="floatingInput">Existencia</label>
                                         </div>
                                         <div class="form-floating mb-3 mt-3">
-                                            <input type="number" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
+                                            <input type="number" min="1" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
                                             <label for="floatingInput">Precio</label>
                                         </div>
 
@@ -350,8 +359,8 @@ $stmt->execute();
                     </div>
                     <div class="container-fluid">
                         <div class="row">
-                            <table class="table">
-                                <thead>
+                            <table id="example" class="table">
+                                <thead class="table-primary">
                                     <tr>
                                         <th scope="col">Id</th>
                                         <th scope="col">Nombre </th>
@@ -383,6 +392,8 @@ $stmt->execute();
                             </table>
                         </div>
                     </div>
+
+
                 </div>
             </main>
             <!-- ! Footer -->
@@ -397,6 +408,13 @@ $stmt->execute();
             </footer>
         </div>
     </div>
+    <script>
+        new DataTable('#example', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            },
+        });
+    </script>
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->
@@ -410,4 +428,3 @@ $stmt->execute();
 </html>
 <?php
 ?>
-

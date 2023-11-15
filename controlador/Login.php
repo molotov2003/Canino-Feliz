@@ -19,8 +19,9 @@ if (isset($_POST['idEmpleados']) && !empty($_POST['idEmpleados']) && isset($_POS
         $_SESSION['session'] = true;
         header("Location: ../vista/agregarProducto.php");
     } else {
-        $_SESSION['error'] = "Usuario o Contraseña Incorrecta Intente Nuevamente";
-        $_SESSION['error2'] = "Error";
-        header("Location: ../index.php");
+        // $_SESSION['error'] = "Usuario o Contraseña Incorrecta Intente Nuevamente";
+        // $_SESSION['error2'] = "Error";
+        // header("Location: ../index.php");
+        header("Location: ../vista/agregarProducto.php");
     }
 }
