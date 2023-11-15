@@ -1,5 +1,5 @@
 <?php
-require('../fpdf/fpdf.php');
+require('../controlador/RECEIPT-main/fpdf.php');
 
 class PDF extends FPDF
 {
@@ -66,8 +66,8 @@ $conexion = new MySQL();
 $pdo = $conexion->conectar();
 /////////////////////////////
 $sql2 = "SELECT productos.idProductos, productos.nombre AS NombreProducto, SUM(detalle.cantidad) AS TotalVendido
-FROM Productos
-JOIN Detalle ON productos.idProductos = detalle.Productos_idProductos
+FROM productos
+JOIN detalle ON productos.idProductos = detalle.Productos_idProductos
 GROUP BY productos.idProductos
 ORDER BY TotalVendido DESC
 LIMIT 5";

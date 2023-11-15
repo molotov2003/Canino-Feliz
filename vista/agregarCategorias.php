@@ -1,27 +1,27 @@
 <?php
 //////////////////////////////////
 session_start();
-
-include('../modelo/MySQL.php');
-$conexion = new MySQL();
-$pdo = $conexion->conectar();
-// traigo el usuario
-$idEmpleados = new MySQL();
-//traigo las categorias
-$sql = "SELECT * FROM `categorias`";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
-/////////////////////////////////}
-// hago la consulta para traer el usuario
+if ($_SESSION['session'] == true) {
+    $nombreEmpleado = $_SESSION['nombre'];
+    $idEmpleado = $_SESSION['idEmpleados'];
+    include('../modelo/MySQL.php');
+    $conexion = new MySQL();
+    $pdo = $conexion->conectar();
+    // traigo el usuario
+    $idEmpleados = new MySQL();
+    //traigo las categorias
+    $sql = "SELECT * FROM `categorias`";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    /////////////////////////////////}
+    // hago la consulta para traer el usuario
     $conexion = new MySQL();
     $pdo = $conexion->conectar();
     $sql = "SELECT idEmpleados FROM empleados WHERE idEmpleados=:idEmpleados";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':idEmpleados', $user, PDO::PARAM_STR);
     $stmt->execute();
-
-
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -67,32 +67,37 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="sidebar-body">
                         <ul class="sidebar-body-menu">
                             <li>
-                                <a class="show-cat-btn" href="##">
-                                    <span class="icon folder" aria-hidden="true"></span>Gestión de Citas
-                                    <span class="category__btn transparent-btn" title="Open list">
-                                        <span class="sr-only">Open list</span>
-                                        <span class="icon arrow-down" aria-hidden="true"></span>
-                                    </span>
+                                <a href="./listarCitas.php"> <span class="icon menu-toggle" aria-hidden="true"></span>
+                                    Listar Citas</a>
                                 </a>
-                                <ul class="cat-sub-menu">
-                                    <li>
-                                        <a href="./listarCitas.php">Listar Citas</a>
-                                    </li>
-                                    <li>
-                                        <a href="./agregarCitas.php">Agregar Cita</a>
-                                    </li>
-                                </ul>
+                            </li>
+                            <li>
+                                <a href="./agregarServicio.php">
+                                    <span class="icon message" aria-hidden="true"></span>
+                                    Gestión de Servicios
+                                </a>
                             </li>
                             <li>
                                 <a href="./registroCliente.php">
-                                    <span class="icon message" aria-hidden="true"></span>
+                                    <span class="icon edit" aria-hidden="true"></span>
                                     Registro de Clientes
                                 </a>
-
+                            </li>
+                            <li>
+                                <a href="./lsitarMascotas.php">
+                                    <span class="icon edit" aria-hidden="true"></span>
+                                    Registro de Mascotas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./agregarEmpleado.php">
+                                    <span class="icon edit" aria-hidden="true"></span>
+                                    Registro de Empleados
+                                </a>
                             </li>
                             <li>
                                 <a class="show-cat-btn" href="##">
-                                    <span class="icon document" aria-hidden="true"></span>Registro de Mascotas
+                                    <span class="icon folder" aria-hidden="true"></span> Inventario
                                     <span class="category__btn transparent-btn" title="Open list">
                                         <span class="sr-only">Open list</span>
                                         <span class="icon arrow-down" aria-hidden="true"></span>
@@ -100,52 +105,14 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </a>
                                 <ul class="cat-sub-menu">
                                     <li>
-                                        <a href="./lsitarMascotas.php">Listar Mascotas</a>
-                                    </li>
-                                    <li>
-                                        <a href="./agregarMascotas.php">Agregar Mascotas</a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <li>
-                                <a class="show-cat-btn" href="##">
-                                    <span class="icon document" aria-hidden="true"></span>Gestion Empleados
-                                    <span class="category__btn transparent-btn" title="Open list">
-                                        <span class="sr-only">Open list</span>
-                                        <span class="icon arrow-down" aria-hidden="true"></span>
-                                    </span>
-                                </a>
-                                <ul class="cat-sub-menu">
-                                    <li>
-                                        <a href="./listarEmpleados.php">Listar Empleados</a>
-                                    </li>
-                                    <li>
-                                        <a href="./agregarEmpleado.php">Agregar Empleado</a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <li>
-                                <a class="show-cat-btn" href="##">
-                                    <span class="icon folder" aria-hidden="true"></span> Inventario de Productos
-                                    <span class="category__btn transparent-btn" title="Open list">
-                                        <span class="sr-only">Open list</span>
-                                        <span class="icon arrow-down" aria-hidden="true"></span>
-                                    </span>
-                                </a>
-                                <ul class="cat-sub-menu">
-                                    <li>
-                                        <a href="./listarProducto.php">Listar Productos</a>
-                                    </li>
-                                    <li>
-                                        <a href="./agregarProducto.php">Agregar Producto</a>
+                                        <a href="./agregarCategorias.php">Ver Categoria</a>
+                                        <a href="./agregarProducto.php">Ver Producto</a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
                                 <a class="show-cat-btn" href="##">
-                                    <span class="icon image" aria-hidden="true"></span>Venta de Productos
+                                    <span class="icon category" aria-hidden="true"></span>Venta de Productos
                                     <span class="category__btn transparent-btn" title="Open list">
                                         <span class="sr-only">Open list</span>
                                         <span class="icon arrow-down" aria-hidden="true"></span>
@@ -154,6 +121,9 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <ul class="cat-sub-menu">
                                     <li>
                                         <a href="./agregarventa.php">Agregar Venta de Productos</a>
+                                    </li>
+                                    <li>
+                                        <a href="./verVentas.php">Listar Venta de Productos</a>
                                     </li>
                                 </ul>
                             </li>
@@ -174,12 +144,11 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a href="##" class="sidebar-user">
                         <span class="sidebar-user-img">
                             <picture>
-                                <source srcset="./img/avatar/avatar-illustrated-01.webp" type="image/webp" />
-                                <img src="./img/avatar/avatar-illustrated-01.png" alt="User name" />
+                                <img src="../img/avatar/avatar-illustrated-03.png" alt="User name" />
                             </picture>
                         </span>
                         <div class="sidebar-user-info">
-                            <span class="sidebar-user__title">Admin</span>
+                            <span class="sidebar-user__title"><?php echo $nombreEmpleado ?></span>
 
                         </div>
                     </a>
@@ -208,24 +177,17 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </button>
 
                             <div class="nav-user-wrapper">
-                                <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                                <button class="nav-user-btn dropdown-btn" title="My profile" type="button">
                                     <span class="sr-only">My perfil</span>
                                     <span class="nav-user-img">
                                         <picture>
-                                            <source srcset="./img/avatar/avatar-illustrated-02.webp" type="image/webp" />
-                                            <img src="./img/avatar/avatar-illustrated-02.png" alt="User name" />
+                                            <img src="../img/logoCanino.png" alt="User name" />
                                         </picture>
                                     </span>
                                 </button>
                                 <ul class="users-item-dropdown nav-user-dropdown dropdown">
                                     <li>
-                                        <a href="##">
-                                            <i data-feather="user" aria-hidden="true"></i>
-                                            <span>Admin</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="danger" href="##">
+                                        <a class="danger" href="../controlador/cerrar.php">
                                             <i data-feather="log-out" aria-hidden="true"></i>
                                             <span>Cerrar</span>
                                         </a>
@@ -303,7 +265,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <form action="../controlador/categorias/AgregarCategoria.php" method="post">
                                         <div class="modal-body">
 
-                                            
+
                                             <div class="form-floating mb-3">
                                                 <input type="text" class="form-control border-secondary" name="Nombrecategoria" value="" require id="Nombrecategoria" placeholder="Nombrecategoria">
                                                 <label for="floatingInput">Nombre Categoria</label>
@@ -375,4 +337,7 @@ $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     </html>
 <?php
+} else {
+    header('Location: ../index.php');
+}
 ?>

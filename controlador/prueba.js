@@ -289,6 +289,7 @@ function guardar(e) {
   const cedula2 = document.getElementById("cedula").value;
   const valorRecibido2 = document.getElementById("valorRecibido").value;
   const nombre = document.getElementById("nombreClien").value;
+  const cedulaCajero = document.getElementById("cajeroId").value;
   if (cedula2.length > 0 && nombre.length > 0) {
     let total2 = 0;
     for (const key of datos2) {
@@ -298,7 +299,7 @@ function guardar(e) {
       let xhr = new XMLHttpRequest();
       let datosUseryCajero = {
         idCliente: cedula2,
-        idCajero: 1112759212,
+        idCajero: cedulaCajero,
         total: total2,
         valorRecibido: valorRecibido2,
       };
