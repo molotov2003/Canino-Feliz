@@ -26,7 +26,7 @@ $stmt4->execute();
 $fila4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
 
-$sql5 = "SELECT reservas.idReservas, reservas.fecha, empleados.nombre AS nombre_empleado, clientes.nombre AS nombre_cliente, mascotas.nombre AS nombre_mascota, servicios.nombre AS nombre_servicio, servicios.precio AS precio_servicio FROM reservas INNER JOIN empleados ON reservas.Empleados_idEmpleados = empleados.idEmpleados INNER JOIN clientes ON reservas.Clientes_cedula = clientes.cedula INNER JOIN mascotas ON reservas.Mascotas_idMascotas = mascotas.idMascotas INNER JOIN servicios ON reservas.Servicios_idServicios = servicios.idServicios; ";
+$sql5 = "SELECT reservas.idReservas, reservas.fecha, empleados.nombre AS nombre_empleado, clientes.nombre AS nombre_cliente, mascotas.nombre AS nombre_mascota, servicios.nombre AS nombre_servicio, servicios.precio AS precio_servicio FROM reservas INNER JOIN empleados ON reservas.Empleados_idEmpleados = empleados.idEmpleados INNER JOIN clientes ON reservas.Clientes_cedula = clientes.cedula INNER JOIN mascotas ON reservas.Mascotas_idMascotas = mascotas.idMascotas INNER JOIN servicios ON reservas.Servicios_idServicios = servicios.idServicios WHERE reservas.estado = 1; ";
 $stmt5 = $pdo->prepare($sql5);
 $stmt5->execute();
 $fila5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
