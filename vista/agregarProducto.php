@@ -33,16 +33,26 @@ if ($_SESSION['session'] == true) {
 
     <!DOCTYPE html>
     <html lang="en">
+<head>
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Peluqueria el Canino Feliz</title>
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
-        <!-- Custom styles -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peluqueria el Canino Feliz</title>
+    <!-- Favicon -->
+    <!--javascript -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <!--css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
+
+    <!-- Custom styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <link rel="stylesheet" href="../css/style.min.css" />
@@ -273,23 +283,22 @@ if ($_SESSION['session'] == true) {
                                     </div>
                                     <form action="../controlador/productos/AgregarProductos.php" method="post">
                                         <div class="modal-body">
-
-                                            <div class="form-floating mb-3">
-                                                <input type="number" class="form-control border-secondary" name="Idproducto" value="" id="Idproducto" placeholder="Id producto" require>
-                                                <label for="floatingInput">Id</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control border-secondary" name="Nombreproducto" value="" id="Nombreproducto" placeholder="Nombre producto">
-                                                <label for="floatingInput">Nombre producto</label>
-                                            </div>
-                                            <div class="form-floating mb-3 mt-3">
-                                                <input type="number" class="form-control border-secondary" name="Existencia" id="Existencia" placeholder="existencia">
-                                                <label for="floatingInput">Existencia</label>
-                                            </div>
-                                            <div class="form-floating mb-3 mt-3">
-                                                <input type="number" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
-                                                <label for="floatingInput">Precio</label>
-                                            </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control border-secondary" name="Idproducto" value="" id="Idproducto" placeholder="Id producto" require>
+                                            <label for="floatingInput">Id</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control border-secondary" name="Nombreproducto" value="" id="Nombreproducto" placeholder="Nombre producto">
+                                            <label for="floatingInput">Nombre producto</label>
+                                        </div>
+                                        <div class="form-floating mb-3 mt-3">
+                                            <input type="number" min="1" class="form-control border-secondary" name="Existencia" id="Existencia" placeholder="existencia">
+                                            <label for="floatingInput">Existencia</label>
+                                        </div>
+                                        <div class="form-floating mb-3 mt-3">
+                                            <input type="number" min="1" class="form-control border-secondary" name="Precio" id="Precio" placeholder="Precio">
+                                            <label for="floatingInput">Precio</label>
+                                        </div>
 
 
                                             <select name="Idcategoria" class="form-select" aria-label="Default select example">
@@ -311,10 +320,25 @@ if ($_SESSION['session'] == true) {
                                 </div>
                             </div>
                         </div>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <table class="table">
-                                    <thead>
+
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <table id="example" class="table">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Nombre </th>
+                                        <th scope="col">Existencia</th>
+                                        <th scope="col">Precio</th>
+
+                                        <th scope="col">Eliminar</th>
+                                        <th scope="col">Editar</th>
+                                    </tr>
+                                </thead>
+                                <?php foreach ($fila as $productos) { ?>
+
+                                    <tbody>
                                         <tr>
                                             <th scope="col">Id</th>
                                             <th scope="col">Nombre </th>
@@ -347,32 +371,42 @@ if ($_SESSION['session'] == true) {
                             </div>
                         </div>
                     </div>
-                </main>
-                <!-- ! Footer -->
-                <footer class="footer">
-                    <div class="container footer--flex">
-                        <div class="footer-start">
-                            <p>
-                                2023 © Peluqueria el Canino Feliz-
-                            </p>
-                        </div>
+
+
+
+                </div>
+            </main>
+            <!-- ! Footer -->
+            <footer class="footer">
+                <div class="container footer--flex">
+                    <div class="footer-start">
+                        <p>
+                            2023 © Peluqueria el Canino Feliz-
+                        </p>
                     </div>
                 </footer>
             </div>
         </div>
-        <!-- Chart library -->
-        <script src="../plugins/chart.min.js"></script>
-        <!-- Icons library -->
-        <script src="../plugins/feather.min.js"></script>
-        <!-- Custom scripts -->
-        <script src="../js/script.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    </body>
+    </div>
+    <script>
+        new DataTable('#example', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            },
+        });
+    </script>
+    <!-- Chart library -->
+    <script src="../plugins/chart.min.js"></script>
+    <!-- Icons library -->
+    <script src="../plugins/feather.min.js"></script>
+    <!-- Custom scripts -->
+    <script src="../js/script.js"></script>
 
-    </html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>
 <?php
-} else {
-    header('Location: ../index.php');
-}
+
 ?>

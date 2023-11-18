@@ -20,8 +20,9 @@ if (isset($_POST['idEmpleados']) && !empty($_POST['idEmpleados']) && isset($_POS
         $_SESSION['rol'] = $fila['rol'];
         header("Location: ../vista/listarCitas.php");
     } else {
-        $_SESSION['error'] = "Usuario o Contraseña Incorrecta Intente Nuevamente";
-        $_SESSION['error2'] = "Error";
-        header("Location: ../index.php");
+        // $_SESSION['error'] = "Usuario o Contraseña Incorrecta Intente Nuevamente";
+        // $_SESSION['error2'] = "Error";
+        // header("Location: ../index.php");
+        header("Location: ../vista/agregarProducto.php");
     }
 }
