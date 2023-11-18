@@ -8,6 +8,7 @@ session_start();
     <title>Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="./images2/icons/favicon.ico" />
     <!--===============================================================================================-->
@@ -54,12 +55,15 @@ session_start();
     <div class="limiter">
         <div class="container-login100" style="background-image: url('images2/bg-01.jpg');">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                <form action="./controlador/Login.php" method="post" id="loginform" class="login100-form validate-form">
-                    <span class="login100-form-title p-b-49">
+
+                <form class="login100-form validate-form">
+                    <span class="login100-form-title p-b-30">
                         Inicio
                     </span>
-                    <img src="./images2/logoCanino.png" alt="">
-                    <div class="wrap-input100 validate-input m-b-23" data-validate="Username is required">
+                    <img src="./images2/logoCanino.png" alt="" width="50%" class="img-fluid mx-auto d-block ">
+
+                    <div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
+
                         <span class="label-input100">Cedula</span>
                         <input class="input100" type="text" name="idEmpleados" placeholder="Cedula">
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
@@ -90,7 +94,7 @@ session_start();
 
 
     <div id="dropDownSelect1"></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!--===============================================================================================-->
     <script src="./vendor2/jquery/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->

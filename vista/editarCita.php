@@ -196,99 +196,100 @@ if ($_SESSION['session'] == true) {
                             </div>
                         </div>
                     </div>
-                </nav>
-                <!-- sweet alert -->
-                <?php
-                if (isset($_SESSION['mensaje'])) {
-                ?>
-                    <script>
-                        let msj = '<?php echo $_SESSION['mensaje'] ?>'
-                        let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
-                        Swal.fire(
-                            titulo,
-                            msj,
-                            'success'
-                        )
-                    </script>
-                <?php
-                    unset($_SESSION['mensaje']);
-                }
-                ?>
 
-                <?php
-                if (isset($_SESSION['mensajeErr'])) {
-                ?>
-                    <script>
-                        let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
-                        let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
-                        Swal.fire(
-                            titulo,
-                            msj,
-                            'success'
-                        )
-                    </script>
-                <?php
-                    unset($_SESSION['mensajeErr']);
-                }
-                ?>
-                <!-- ! Main -->
-                <main class="main users chart-page" id="skip-target">
+                </div>
+            </nav>
+            <!-- sweet alert -->
+            <?php
+            if (isset($_SESSION['mensaje'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensaje'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensaje']);
+            }
+            ?>
 
-                    <div class="container">
+            <?php
+            if (isset($_SESSION['mensajeErr'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'error'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensajeErr']);
+            }
+            ?>
+            <!-- ! Main -->
+            <main class="main users chart-page" id="skip-target">
 
-
-
-
-                        <div class="row">
-                            <div class="col-3"></div>
-                            <div class="col-6">
-                                <h4 class="text-center">Editar Cita</h4>
-
-                                <form action="../controlador/editarCita.php" method="post" class="mt-3">
-
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control border-secondary" id="id" name="id" placeholder="Reserva" value="<?php echo $id ?>" hidden>
-
-                                    </div>
-
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control border-secondary" id="idEmpleado" name="idEmpleado" placeholder="Empleado" value="<?php echo $empleado ?>" readonly>
-                                        <label for="floatingInput">Id Empleado</label>
-
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control border-secondary" id="idClientes" name="idClientes" placeholder="Cliente" value="<?php echo $cliente ?>" readonly>
-                                        <label for="floatingInput">id Cliente</label>
-
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control border-secondary" id="idMascota" name="idMascota" placeholder="Mascota" value="<?php echo $mascota ?>" readonly>
-                                        <label for="floatingInput">Id Mascota</label>
-
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <select class="form-select border-secondary" aria-label="Default select example" name="servicio" id="servicio" onchange="select()">
-
-                                            <?php foreach ($fila2 as $datos2) { ?>
-                                                <option value="<?php echo $datos2['idServicios'] . "/" . $datos2['precio'] ?>"><?php echo $datos2['idServicios'] . ". " . $datos2['nombre'] ?></option>
-                                            <?php } ?>
-
-                                        </select>
-                                        <label for="floatingInput">Servicio</label>
-                                    </div>
+                <div class="container">
 
 
-                                    <div class="form-floating mt-3">
-
-                                        <input type="datetime-local" class="form-control border-secondary" name="fechaCita" id="fechaCita" value="<?php echo $fecha ?>">
-                                        <label for="floatingInput">Fecha Cita</label>
-                                    </div>
 
 
-                                    <div class="text-end mt-3"> <button type="submit" class="btn btn-primary ">Editar Servicio</button></div>
-                                </form>
-                            </div>
-                            <div class="col-3"></div>
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <h4 class="text-center">Editar Cita</h4>
+
+                            <form action="../controlador/editarCita.php" method="post" class="mt-3">
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="id" name="id" placeholder="Reserva" value="<?php echo $id ?>" hidden>
+
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="idEmpleado" name="idEmpleado" placeholder="Empleado" value="<?php echo $empleado ?>" readonly>
+                                    <label for="floatingInput">Id Empleado</label>
+
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="idClientes" name="idClientes" placeholder="Cliente" value="<?php echo $cliente ?>" readonly>
+                                    <label for="floatingInput">id Cliente</label>
+
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="idMascota" name="idMascota" placeholder="Mascota" value="<?php echo $mascota ?>" readonly>
+                                    <label for="floatingInput">Id Mascota</label>
+
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select class="form-select border-secondary" aria-label="Default select example" name="servicio" id="servicio" onchange="select()">
+
+                                        <?php foreach ($fila2 as $datos2) { ?>
+                                            <option value="<?php echo $datos2['idServicios'] . "/" . $datos2['precio'] ?>"><?php echo $datos2['idServicios'] . ". " . $datos2['nombre'] ?></option>
+                                        <?php } ?>
+
+                                    </select>
+                                    <label for="floatingInput">Servicio</label>
+                                </div>
+
+
+                                <div class="form-floating mt-3">
+
+                                    <input type="datetime-local" class="form-control border-secondary" name="fechaCita" id="fechaCita" value="<?php echo $fecha ?>">
+                                    <label for="floatingInput">Fecha Cita</label>
+                                </div>
+
+
+                                <div class="text-end mt-3"> <button type="submit" class="btn btn-primary ">Editar Servicio</button></div>
+                            </form>
+
                         </div>
 
 
