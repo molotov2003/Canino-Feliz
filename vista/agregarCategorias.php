@@ -2,6 +2,7 @@
 //////////////////////////////////
 session_start();
 
+
 include('../modelo/MySQL.php');
 $conexion = new MySQL();
 $pdo = $conexion->conectar();
@@ -66,12 +67,14 @@ $stmt->execute();
 
                         <img src="../images2/logoCanino.png " alt="" width="75%">
 
+
                     </a>
                     <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
                         <span class="sr-only">Toggle menu</span>
                         <span class="icon menu-toggle" aria-hidden="true"></span>
                     </button>
                 </div>
+
                 <div class="sidebar-body">
                     <ul class="sidebar-body-menu">
                         <li>
@@ -214,6 +217,7 @@ $stmt->execute();
                             <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
                             <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                         </button>
+
 
                         <div class="nav-user-wrapper">
                             <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
@@ -390,4 +394,7 @@ $stmt->execute();
 
 </html>
 <?php
+} else {
+    header('Location: ../index.php');
+}
 ?>

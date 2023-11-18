@@ -6,21 +6,27 @@ if ($_SESSION['session'] == true) {
     include("../modelo/MySQL.php");
     $conexion = new MySQL();
     $pdo = $conexion->conectar();
+    $id = $_GET['id'];
 
-    $sql = "SELECT mascotas.idMascotas, mascotas.nombre, mascotas.tipoMascota, mascotas.Raza, mascotas.requisitoEspecial, clientes.nombre AS nombrePer, clientes.cedula
-FROM mascotas INNER JOIN clientes INNER JOIN clientes_has_mascotas 
-WHERE mascotas.idMascotas = clientes_has_mascotas.Mascotas_idMascotas AND clientes.cedula = clientes_has_mascotas.Clientes_cedula";
+    $sql = "SELECT reservas.idReservas, reservas.fecha, empleados.nombre AS nombre_empleado, clientes.nombre AS nombre_cliente, mascotas.nombre AS nombre_mascota, servicios.nombre AS nombre_servicio, servicios.precio AS precio_servicio FROM reservas INNER JOIN empleados ON reservas.Empleados_idEmpleados = empleados.idEmpleados INNER JOIN clientes ON reservas.Clientes_cedula = clientes.cedula INNER JOIN mascotas ON reservas.Mascotas_idMascotas = mascotas.idMascotas INNER JOIN servicios ON reservas.Servicios_idServicios = servicios.idServicios where idReservas = :id";
     $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
-    $fila = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $fila = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $sql2 = "SELECT * FROM clientes";
+    $empleado = $fila['nombre_empleado'];
+    $fecha = $fila['fecha'];
+    $cliente = $fila['nombre_cliente'];
+    $mascota = $fila['nombre_mascota'];
+    $servicio = $fila['nombre_servicio'];
+
+
+    $sql2 = "SELECT * FROM servicios";
     $stmt2 = $pdo->prepare($sql2);
     $stmt2->execute();
     $fila2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
+
 
     <!DOCTYPE html>
     <html lang="en">
@@ -30,20 +36,12 @@ WHERE mascotas.idMascotas = clientes_has_mascotas.Mascotas_idMascotas AND client
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Peluqueria el Canino Feliz</title>
-        <!-- links datatable -->
-        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-        <!-- Fin links datatable -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <!-- Favicon -->
         <link rel="shortcut icon" href="../img/svg/logo.svg" type="image/x-icon" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <!-- Custom styles -->
         <link rel="stylesheet" href="../css/style.min.css" />
-
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
@@ -162,11 +160,8 @@ WHERE mascotas.idMascotas = clientes_has_mascotas.Mascotas_idMascotas AND client
                     <div class="container main-nav">
                         <div class="main-nav-start">
                             <div class="search-wrapper">
-                                <form action="" method="post">
-                                    <i data-feather="search" aria-hidden="true"></i>
-                                    <input type="text" placeholder="Buscar Mascota" required />
-                                    <button class="btn btn-primary"> <i class="bi bi-search"></i> </button>
-                                </form>
+                                <i data-feather="search" aria-hidden="true"></i>
+                                <input type="text" placeholder="Enter keywords ..." required />
                             </div>
                         </div>
                         <div class="main-nav-end">
@@ -201,136 +196,107 @@ WHERE mascotas.idMascotas = clientes_has_mascotas.Mascotas_idMascotas AND client
                             </div>
                         </div>
                     </div>
-                </nav>
-                <!-- sweet alert -->
-                <?php
-                if (isset($_SESSION['mensaje'])) {
-                ?>
-                    <script>
-                        let msj = '<?php echo $_SESSION['mensaje'] ?>'
-                        let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
-                        Swal.fire(
-                            titulo,
-                            msj,
-                            'success'
-                        )
-                    </script>
-                <?php
-                    unset($_SESSION['mensaje']);
-                }
-                ?>
 
-                <?php
-                if (isset($_SESSION['mensajeErr'])) {
-                ?>
-                    <script>
-                        let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
-                        let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
-                        Swal.fire(
-                            titulo,
-                            msj,
-                            'success'
-                        )
-                    </script>
-                <?php
-                    unset($_SESSION['mensajeErr']);
-                }
-                ?>
-                <!-- ! Main -->
-                <main class="main users chart-page" id="skip-target">
-                    <div class="container">
-                        <button type="button" onclick="borrar()" class="btn btn-info mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class="bi bi-plus-circle-dotted"></i> </button>
+                </div>
+            </nav>
+            <!-- sweet alert -->
+            <?php
+            if (isset($_SESSION['mensaje'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensaje'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'success'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensaje']);
+            }
+            ?>
 
-                        <table class="table table-striped" id="tableMascotas">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Tipo de Mascota</th>
-                                    <th scope="col">Raza</th>
-                                    <th scope="col">Requisito Especial</th>
-                                    <th scope="col">Dueño</th>
-                                    <th scope="col">Cedula</th>
-                                    <th scope="col">Editar</th>
-                                    <th scope="col">Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+            <?php
+            if (isset($_SESSION['mensajeErr'])) {
+            ?>
+                <script>
+                    let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
+                    let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
+                    Swal.fire(
+                        titulo,
+                        msj,
+                        'error'
+                    )
+                </script>
+            <?php
+                unset($_SESSION['mensajeErr']);
+            }
+            ?>
+            <!-- ! Main -->
+            <main class="main users chart-page" id="skip-target">
 
-                                <?php
-                                foreach ($fila as $datos) {
-                                ?>
-                                    <tr>
-                                        <td><?php echo $datos['nombre'] ?></td>
-                                        <td><?php echo $datos['tipoMascota'] ?></td>
-                                        <td><?php echo $datos['Raza'] ?></td>
-                                        <td><?php echo $datos['requisitoEspecial'] ?></td>
-                                        <td><?php echo $datos['nombrePer'] ?></td>
-                                        <td><?php echo $datos['cedula'] ?></td>
-                                        <td><a href="../vista/editarMascota.php?id=<?php echo $datos['idMascotas'] ?>" class="btn btn-primary "><i class="bi bi-pencil-square"></i></a></td>
-                                        <td><a href="../controlador/eliminarMascota.php?id=<?php echo $datos['idMascotas'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
-                                    </tr>
+                <div class="container">
 
-                                <?php
-                                }
 
-                                ?>
-                            </tbody>
-                        </table>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Mascota</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <form action="../controlador/registroMascota.php" method="post">
-                                        <div class="modal-body">
 
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control border-secondary" name="nombre" id="nombre" placeholder="name@example.com" required>
-                                                <label for="floatingInput">Nombre</label>
-                                            </div>
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <h4 class="text-center">Editar Cita</h4>
 
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control border-secondary" name="tipo" id="tipo" placeholder="name@example.com" required>
-                                                <label for="floatingInput">Tipo de Mascota</label>
-                                            </div>
+                            <form action="../controlador/editarCita.php" method="post" class="mt-3">
 
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control border-secondary" name="raza" id="raza" placeholder="name@example.com" required>
-                                                <label for="floatingInput">Raza</label>
-                                            </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="id" name="id" placeholder="Reserva" value="<?php echo $id ?>" hidden>
 
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control border-secondary" name="requisito" id="requisito" placeholder="name@example.com" required>
-                                                <label for="floatingInput">Requisito Especial</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <select class="form-select form-select-lg mb-3 border-secondary" aria-label="Large select example" name="cliente" required>
-                                                    <?php
-                                                    foreach ($fila2 as $datos2) {
-                                                    ?>
-                                                        <option value="<?php echo $datos2['cedula'] ?>"> <?php echo $datos2['nombre'] . " " . $datos2['apellido'] ?> </option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                                <label for="floatingInput">Cliente</label>
-                                            </div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary">Registrar Cliente</button>
-                                        </div>
-                                    </form>
                                 </div>
-                            </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="idEmpleado" name="idEmpleado" placeholder="Empleado" value="<?php echo $empleado ?>" readonly>
+                                    <label for="floatingInput">Id Empleado</label>
+
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="idClientes" name="idClientes" placeholder="Cliente" value="<?php echo $cliente ?>" readonly>
+                                    <label for="floatingInput">id Cliente</label>
+
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control border-secondary" id="idMascota" name="idMascota" placeholder="Mascota" value="<?php echo $mascota ?>" readonly>
+                                    <label for="floatingInput">Id Mascota</label>
+
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select class="form-select border-secondary" aria-label="Default select example" name="servicio" id="servicio" onchange="select()">
+
+                                        <?php foreach ($fila2 as $datos2) { ?>
+                                            <option value="<?php echo $datos2['idServicios'] . "/" . $datos2['precio'] ?>"><?php echo $datos2['idServicios'] . ". " . $datos2['nombre'] ?></option>
+                                        <?php } ?>
+
+                                    </select>
+                                    <label for="floatingInput">Servicio</label>
+                                </div>
+
+
+                                <div class="form-floating mt-3">
+
+                                    <input type="datetime-local" class="form-control border-secondary" name="fechaCita" id="fechaCita" value="<?php echo $fecha ?>">
+                                    <label for="floatingInput">Fecha Cita</label>
+                                </div>
+
+
+                                <div class="text-end mt-3"> <button type="submit" class="btn btn-primary ">Editar Servicio</button></div>
+                            </form>
+
                         </div>
 
+
+
                     </div>
+
+
 
 
 
@@ -347,26 +313,8 @@ WHERE mascotas.idMascotas = clientes_has_mascotas.Mascotas_idMascotas AND client
                 </footer>
             </div>
         </div>
-        <script>
-            new DataTable('#tableMascotas');
 
-            function onlyNumberKey(evt) {
 
-                // Only ASCII character in that range allowed
-                var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-                if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-                    return false;
-                return true;
-            }
-
-            function borrar() {
-                document.getElementById("cedula").value = "";
-                document.getElementById("nombre").value = "";
-                document.getElementById("apellido").value = "";
-                document.getElementById("telefono").value = "";
-                document.getElementById("direccion").value = "";
-            }
-        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <!-- Chart library -->
         <script src="../plugins/chart.min.js"></script>
@@ -377,9 +325,7 @@ WHERE mascotas.idMascotas = clientes_has_mascotas.Mascotas_idMascotas AND client
     </body>
 
     </html>
-
 <?php
 } else {
     header('Location: ../index.php');
 }
-?>

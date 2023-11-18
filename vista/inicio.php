@@ -34,32 +34,37 @@
                 <div class="sidebar-body">
                     <ul class="sidebar-body-menu">
                         <li>
-                            <a class="show-cat-btn" href="##">
-                                <span class="icon folder" aria-hidden="true"></span>Gestión de Citas
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
+                            <a href="./listarCitas.php"> <span class="icon menu-toggle" aria-hidden="true"></span>
+                                Listar Citas</a>
                             </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="./listarCitas.php">Listar Citas</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarCitas.php">Agregar Cita</a>
-                                </li>
-                            </ul>
+                        </li>
+                        <li>
+                            <a href="./agregarServicio.php">
+                                <span class="icon message" aria-hidden="true"></span>
+                                Gestión de Servicios
+                            </a>
                         </li>
                         <li>
                             <a href="./registroCliente.php">
-                                <span class="icon message" aria-hidden="true"></span>
+                                <span class="icon edit" aria-hidden="true"></span>
                                 Registro de Clientes
                             </a>
-
+                        </li>
+                        <li>
+                            <a href="./lsitarMascotas.php">
+                                <span class="icon edit" aria-hidden="true"></span>
+                                Registro de Mascotas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./agregarEmpleado.php">
+                                <span class="icon edit" aria-hidden="true"></span>
+                                Registro de Empleados
+                            </a>
                         </li>
                         <li>
                             <a class="show-cat-btn" href="##">
-                                <span class="icon document" aria-hidden="true"></span>Registro de Mascotas
+                                <span class="icon folder" aria-hidden="true"></span> Inventario
                                 <span class="category__btn transparent-btn" title="Open list">
                                     <span class="sr-only">Open list</span>
                                     <span class="icon arrow-down" aria-hidden="true"></span>
@@ -67,52 +72,14 @@
                             </a>
                             <ul class="cat-sub-menu">
                                 <li>
-                                    <a href="./lsitarMascotas.php">Listar Mascotas</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarMascotas.php">Agregar Mascotas</a>
-                                </li>
-
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="show-cat-btn" href="##">
-                                <span class="icon document" aria-hidden="true"></span>Gestion Empleados
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
-                            </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="./listarEmpleados.php">Listar Empleados</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarEmpleado.php">Agregar Empleado</a>
-                                </li>
-
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="show-cat-btn" href="##">
-                                <span class="icon folder" aria-hidden="true"></span> Inventario de Productos
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
-                            </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="./listarProducto.php">Listar Productos</a>
-                                </li>
-                                <li>
-                                    <a href="./agregarProducto.php">Agregar Producto</a>
+                                    <a href="./agregarCategorias.php">Ver Categoria</a>
+                                    <a href="./agregarProducto.php">Ver Producto</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
                             <a class="show-cat-btn" href="##">
-                                <span class="icon image" aria-hidden="true"></span>Venta de Productos
+                                <span class="icon category" aria-hidden="true"></span>Venta de Productos
                                 <span class="category__btn transparent-btn" title="Open list">
                                     <span class="sr-only">Open list</span>
                                     <span class="icon arrow-down" aria-hidden="true"></span>
@@ -121,6 +88,9 @@
                             <ul class="cat-sub-menu">
                                 <li>
                                     <a href="./agregarventa.php">Agregar Venta de Productos</a>
+                                </li>
+                                <li>
+                                    <a href="./verVentas.php">Listar Venta de Productos</a>
                                 </li>
                             </ul>
                         </li>
@@ -141,12 +111,11 @@
                 <a href="##" class="sidebar-user">
                     <span class="sidebar-user-img">
                         <picture>
-                            <source srcset="./img/avatar/avatar-illustrated-01.webp" type="image/webp" />
-                            <img src="./img/avatar/avatar-illustrated-01.png" alt="User name" />
+                            <img src="../img/avatar/avatar-illustrated-03.png" alt="User name" />
                         </picture>
                     </span>
                     <div class="sidebar-user-info">
-                        <span class="sidebar-user__title">Admin</span>
+                        <span class="sidebar-user__title"><?php echo $nombreEmpleado ?></span>
 
                     </div>
                 </a>
@@ -175,36 +144,30 @@
                         </button>
 
                         <div class="nav-user-wrapper">
-                            <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
-                                <span class="sr-only">My perfil</span>
-                                <span class="nav-user-img">
-                                    <picture>
-                                        <source srcset="./img/avatar/avatar-illustrated-02.webp" type="image/webp" />
-                                        <img src="./img/avatar/avatar-illustrated-02.png" alt="User name" />
-                                    </picture>
-                                </span>
-                            </button>
-                            <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                                <li>
-                                    <a href="##">
-                                        <i data-feather="user" aria-hidden="true"></i>
-                                        <span>Admin</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="danger" href="##">
-                                        <i data-feather="log-out" aria-hidden="true"></i>
-                                        <span>Cerrar</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                                <button class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                                    <span class="sr-only">My perfil</span>
+                                    <span class="nav-user-img">
+                                        <picture>
+                                            <img src="../img/logoCanino.png" alt="User name" />
+                                        </picture>
+                                    </span>
+                                </button>
+                                <ul class="users-item-dropdown nav-user-dropdown dropdown">
+                                    <li>
+                                        <a class="danger" href="../controlador/cerrar.php">
+                                            <i data-feather="log-out" aria-hidden="true"></i>
+                                            <span>Cerrar</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                     </div>
                 </div>
             </nav>
             <!-- ! Main -->
             <main class="main users chart-page" id="skip-target">
                 <div class="container">
+
 
                 </div>
             </main>
@@ -220,6 +183,7 @@
             </footer>
         </div>
     </div>
+
     <!-- Chart library -->
     <script src="../plugins/chart.min.js"></script>
     <!-- Icons library -->

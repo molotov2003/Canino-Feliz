@@ -184,44 +184,89 @@ if (isset($idProductos) && !empty($idProductos)) {
                         </div>
                     </div>
                     <div class="main-nav-end">
+
                         <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
                             <span class="sr-only">Toggle menu</span>
-                            <span class="icon menu-toggle--gray" aria-hidden="true"></span>
+                            <span class="icon menu-toggle" aria-hidden="true"></span>
                         </button>
+                    </div>
+                    <div class="sidebar-body">
+                        <ul class="sidebar-body-menu">
+                            <li>
+                                <a href="./listarCitas.php"> <span class="icon menu-toggle" aria-hidden="true"></span>
+                                    Listar Citas</a>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./agregarServicio.php">
+                                    <span class="icon message" aria-hidden="true"></span>
+                                    Gestión de Servicios
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./registroCliente.php">
+                                    <span class="icon edit" aria-hidden="true"></span>
+                                    Registro de Clientes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./lsitarMascotas.php">
+                                    <span class="icon edit" aria-hidden="true"></span>
+                                    Registro de Mascotas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="./agregarEmpleado.php">
+                                    <span class="icon edit" aria-hidden="true"></span>
+                                    Registro de Empleados
+                                </a>
+                            </li>
+                            <li>
+                                <a class="show-cat-btn" href="##">
+                                    <span class="icon folder" aria-hidden="true"></span> Inventario
+                                    <span class="category__btn transparent-btn" title="Open list">
+                                        <span class="sr-only">Open list</span>
+                                        <span class="icon arrow-down" aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <ul class="cat-sub-menu">
+                                    <li>
+                                        <a href="./agregarCategorias.php">Ver Categoria</a>
+                                        <a href="./agregarProducto.php">Ver Producto</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="show-cat-btn" href="##">
+                                    <span class="icon category" aria-hidden="true"></span>Venta de Productos
+                                    <span class="category__btn transparent-btn" title="Open list">
+                                        <span class="sr-only">Open list</span>
+                                        <span class="icon arrow-down" aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <ul class="cat-sub-menu">
+                                    <li>
+                                        <a href="./agregarventa.php">Agregar Venta de Productos</a>
+                                    </li>
+                                    <li>
+                                        <a href="./verVentas.php">Listar Venta de Productos</a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
-                            <span class="sr-only">Switch theme</span>
-                            <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
-                            <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
-                        </button>
+                            <li>
+                                <a href="./informesyestadisticas.php">
+                                    <span class="icon message" aria-hidden="true"></span>
+                                    Informes y Estadisticas
+                                </a>
 
-                        <div class="nav-user-wrapper">
-                            <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
-                                <span class="sr-only">My perfil</span>
-                                <span class="nav-user-img">
-                                    <picture>
-                                        <source srcset="./img/avatar/avatar-illustrated-02.webp" type="image/webp" />
-                                        <img src="./img/avatar/avatar-illustrated-02.png" alt="User name" />
-                                    </picture>
-                                </span>
-                            </button>
-                            <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                                <li>
-                                    <a href="##">
-                                        <i data-feather="user" aria-hidden="true"></i>
-                                        <span>Admin</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="danger" href="##">
-                                        <i data-feather="log-out" aria-hidden="true"></i>
-                                        <span>Cerrar</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                            </li>
+                        </ul>
+
+
                     </div>
                 </div>
+
             </nav>
             <!-- sweet alert -->
             <?php
@@ -296,26 +341,129 @@ if (isset($idProductos) && !empty($idProductos)) {
                             <?php } ?>
                         </select>
 
-                        <button type="submit" class="btn btn-primary mt-4">Editar Producto</button>
 
-                    </form>
+                            <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
+                                <span class="sr-only">Switch theme</span>
+                                <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
+                                <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
+                            </button>
 
-                </div>
-
-
-
-            </main>
-            <!-- ! Footer -->
-            <footer class="footer">
-                <div class="container footer--flex">
-                    <div class="footer-start">
-                        <p>
-                            2023 ©️ Peluqueria el Canino Feliz-
-                        </p>
+                            <div class="nav-user-wrapper">
+                                <button class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                                    <span class="sr-only">My perfil</span>
+                                    <span class="nav-user-img">
+                                        <picture>
+                                            <img src="../img/logoCanino.png" alt="User name" />
+                                        </picture>
+                                    </span>
+                                </button>
+                                <ul class="users-item-dropdown nav-user-dropdown dropdown">
+                                    <li>
+                                        <a class="danger" href="../controlador/cerrar.php">
+                                            <i data-feather="log-out" aria-hidden="true"></i>
+                                            <span>Cerrar</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </footer>
+                </nav>
+                <!-- sweet alert -->
+                <?php
+                if (isset($_SESSION['mensaje'])) {
+                ?>
+                    <script>
+                        let msj = '<?php echo $_SESSION['mensaje'] ?>'
+                        let titulo = '<?php echo $_SESSION['mensaje2'] ?>'
+                        Swal.fire(
+                            titulo,
+                            msj,
+                            'success'
+                        )
+                    </script>
+                <?php
+                    unset($_SESSION['mensaje']);
+                }
+                ?>
+
+                <?php
+                if (isset($_SESSION['mensajeErr'])) {
+                ?>
+                    <script>
+                        let msj = '<?php echo $_SESSION['mensajeErr2'] ?>'
+                        let titulo = '<?php echo $_SESSION['mensajeErr'] ?>'
+                        Swal.fire(
+                            titulo,
+                            msj,
+                            'success'
+                        )
+                    </script>
+                <?php
+                    unset($_SESSION['mensajeErr']);
+                }
+                ?>
+                <!-- ! Main -->
+                <main class="main users chart-page" id="skip-target">
+                    <div class="container text-center">
+
+                        <form action="../controlador/productos/Editarproducto.php" method="post" class="login100-form validate-form">
+
+                            <h2 class="mb-5">Editar Producto</h2>
+
+                            <input hidden type="text" class="form-control border-secondary" name="idProductos" value="<?php echo $idProductos ?>">
+
+                            <div class="form-floating mb-3" data-validate="Id is required">
+                                <input disabled type="number" class="form-control border-secondary" value="<?php echo $idProductos ?>">
+                                <label for="floatingInput">Id de la categoria</label>
+                            </div>
+
+                            <div class="form-floating mb-3" data-validate="Name is required">
+                                <input type="text" class="form-control border-secondary" name="nombre" placeholder="name@example.com" value="<?php echo $fila['nombre'] ?>" required>
+                                <label for="floatingInput">Nombre</label>
+                            </div>
+
+                            <div class="form-floating mb-3" data-validate="Existence is required">
+                                <input type="number" class="form-control border-secondary" name="existencia" placeholder="name@example.com" value="<?php echo $fila['existencia'] ?>" require>
+                                <label for="floatingInput">Existencia</label>
+                            </div>
+                            <div class="form-floating mb-3" data-validate="Price is required">
+                                <input type="number" class="form-control border-secondary" name="precio" placeholder="name@example.com" value="<?php echo $fila['precio'] ?>" required>
+                                <label for="floatingInput">Precio</label>
+                            </div>
+
+
+                            <select name="Categorias_idCategorias" class="form-select" aria-label="Default select example">
+
+                                <?php foreach ($fila2 as $categorias) { ?>
+
+                                    <option value="<?php echo $categorias['idCategorias'] ?>"><?php echo $categorias['nombre'] ?></option>
+
+                                <?php } ?>
+                            </select>
+
+                            <button type="submit" class="btn btn-primary mt-4">Editar Producto</button>
+
+                        </form>
+
+                    </div>
+
+
+
+                </main>
+                <!-- ! Footer -->
+                <footer class="footer">
+                    <div class="container footer--flex">
+                        <div class="footer-start">
+                            <p>
+                                2023 ©️ Peluqueria el Canino Feliz-
+                            </p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
         </div>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!-- Chart library -->
@@ -328,3 +476,4 @@ if (isset($idProductos) && !empty($idProductos)) {
 </body>
 
 </html>
+
